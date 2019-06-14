@@ -1,0 +1,43 @@
+{
+  "name": "MacGyver",
+  "version": "0.6.1",
+  "main": [
+    "lib/macgyver-core.js",
+    "lib/macgyver-filters.js",
+    "lib/macgyver-string-filter.js",
+    "lib/macgyver.css",
+    "lib/macgyver.js",
+    "lib/macgyver.min.js"
+  ],
+  "ignore": [
+    "misc",
+    "src",
+    "test",
+    "vendor",
+    ".bowerrc",
+    ".gitignore",
+    ".travis.yml",
+    "build.json",
+    "Gruntfile.coffee",
+    "init-project.sh",
+    "package.json"
+  ],
+  "devDependencies": {
+    "angular-mocks": "~1.3.0"
+  },
+  "dependencies": {
+    "angular": "~1.3.0",
+    "angular-animate": "~1.3.0",
+    "underscore.string": "~2.3.3"
+  },
+  "homepage": "https://github.com/angular-macgyver/MacGyver",
+  "_release": "0.6.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.6.1",
+    "commit": "76514d8ba368ba2a698f1dbc66552629e1303eb2"
+  },
+  "_source": "https://github.com/angular-macgyver/MacGyver.git",
+  "_target": "~0.6.1",
+  "_originalSource": "angular-macgyver"
+}

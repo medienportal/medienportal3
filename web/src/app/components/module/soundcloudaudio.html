@@ -1,0 +1,10 @@
+<iframe
+	class="iframe"
+	width="100%"
+	scrolling="no"
+	frameborder="no"
+	ng-if="module.files[0]"
+	ng-src="{{'https://w.soundcloud.com/player/?url=' + module.files[0] + '&amp;auto_play=false&amp;auto_advance=false&amp;buying=false&amp;liking=true&amp;download=true&amp;sharing=true&amp;show_artwork=false&amp;show_comments=false&amp;show_playcount=true&amp;show_user=false&amp;hide_related=false&amp;start_track=0&amp;callback=true'}}">
+</iframe>
+<input type="file" ngf-select ngf-change="module.setFile($files, page)" ng-if="isEditing()" />
+<p contenteditable="{{isEditing()}}" ng-model="module.content" class="module_additionalinfo" ng-blur="module.save(page)" ng-change="realtime()"></p>

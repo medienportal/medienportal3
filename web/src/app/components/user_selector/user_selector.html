@@ -1,0 +1,30 @@
+<section class="userselector">
+	<ul class="userlist">
+		<li ng-repeat="friend in chosenUsers">
+			<div ng-if="friend.author_type == 'panda'" class="user author">
+				<img ng-src="{{userCollection[friend.author_id].getImage()}}" />
+				{{userCollection[friend.author_id].name}}<span>&nbsp;·&nbsp;</span><span ng-click="unchose(friend, $event)" ng-if="chosenUsers.length > 1">entfernen</span>
+			</div>
+			<div ng-if="friend.author_type == 'custom'" class="user author">
+				{{friend.author_id}}<span>&nbsp;·&nbsp;</span><span ng-click="unchose(friend, $event)">entfernen</span>
+			</div>
+		</li>
+	</ul>
+	<mac-autocomplete
+            mac-autocomplete-source="searchName"
+            mac-autocomplete-on-select="chose(selected, link)"
+            mac-autocomplete-delay="200"
+            mac-placeholder="'Name der Person eintippen, um angemeldete Person hinzuzufügen ...'"
+            ng-model="searchtext"
+            class="large-12 columns"
+            style="margin-top:10px;">
+        <span>
+            <img ng-src="{{item.getImage('small')}}" alt="{{item.first_name}} {{item.last_name}}" style="height: 75px" />
+            <b>{{item.first_name}} {{item.last_name}}</b>
+        </span>
+    </mac-autocomplete>
+    <p style="text-align: center"> - oder -</p>
+	<form ng-submit="chose(newUserName, $event)">
+		<input type="text" ng-model="newUserName" placeholder="Unangemeldete Person hinzufügen" style="display: block; width: 100%;" />
+	</form>
+</section>

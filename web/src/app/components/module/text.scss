@@ -1,0 +1,14 @@
+p.module_text {
+/*
+	color: white;
+	background-color: blue;
+*/
+	padding: 15px;
+	text-align: justify;
+	@media only screen and (max-width: 40em) {
+		padding: 25px;
+		font-size: 15px;
+		width: 95%;
+	}
+
+}

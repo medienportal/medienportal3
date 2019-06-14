@@ -1,0 +1,11 @@
+p.module_question {
+	font-weight: 700;
+}
+.module_question,.module_answer {
+	padding: 0 15px;
+}
+
+body.editMode p.module_question {
+	border-bottom: 1px dotted lightgray;
+	padding-bottom: 3px;
+}

@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "medienportal3-web.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "medienportal3-web.name" . }}
+    helm.sh/chart: {{ include "medienportal3-web.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "medienportal3-web.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "medienportal3-web.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+          env:
+            - name: API_ENDPOINT
+              value: "{{ .Values.apiEndpoint }}"
+            - name: UPLOAD_ENDPOINT
+              value: "{{ .Values.apiEndpoint }}"
+            - name: MAX_SIMULTANIOUS_UPLOAD_REQUESTS
+              value: "2"
+            - name: CDN_PATH
+              value: "{{ .Values.cdnPath }}"
+            - name: GA_TRACKING_CODE
+              value: "{{ .Values.gaTrackingCode }}"
+            - name: COOKIE_DOMAIN
+              value: "{{ .Values.cookieDomain }}"
+            - name: FACEBOOK_APPID
+              value: "{{ .Values.facebookAppId }}"
+            - name: GOOGLE_CLIENTID
+              value: "{{ .Values.googleClientId }}"
+            - name: PUSHER_KEY
+              value: "{{ .Values.pusherKey }}"
+            - name: FEEDBACK_ENDPOINT
+              value: "{{ .Values.feedbackEndpoint }}"
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

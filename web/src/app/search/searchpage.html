@@ -1,0 +1,83 @@
+<div class="row filter content">
+	<section class="medium-8 small-centered columns content" style="margin-bottom:10px;">
+            <h3 ng-if="search.sm._options.fields.topic">{{search.sm._options.fields.topic}}</h3>
+            <h3 ng-if="search.sm._options.fields.tags">{{search.sm._options.fields.tags}}</h3>
+			<form>
+				<input
+					type="search"
+					ng-model="search.searchtext"
+					ng-model-options="{ debounce: 200 }"
+					ng-change="search.sm.get({ text: search.searchtext, options: search.sm._options })"
+					placeholder="Suchtext eingeben" />
+			</form>
+			<span style="margin-bottom:15px;" ng-if="search.sm.took > 0">{{search.sm.results.length}} Suchergebnisse in {{search.sm.took / 1000}}s</span>
+		<div class="filter_row">
+			<h4>Sortieren</h3>
+			<div class="filter_group" style="margin-right:10px;">
+				<button ng-click="search.localSearchOptions.sort.value = 'date'"
+					ng-class="{active: search.localSearchOptions.sort.value === 'date'}">
+					Datum
+				</button>
+				<button ng-click="search.localSearchOptions.sort.value = 'score'"
+					ng-class="{active: search.localSearchOptions.sort.value === 'score'}">
+					Relevanz
+				</button>
+				<button ng-click="search.localSearchOptions.sort.value = 'likes'"
+					ng-class="{active: search.localSearchOptions.sort.value === 'likes'}">
+					Empfehlungen
+				</button>
+				<button ng-click="search.localSearchOptions.sort.value = 'comments'"
+					ng-class="{active: search.localSearchOptions.sort.value === 'comments'}">
+					Kommentare
+				</button>
+			</div>
+			<div class="filter_group">
+				<button ng-click="search.localSearchOptions.sort.sort = '-'"
+					ng-class="{active: search.localSearchOptions.sort.sort === '-'}">
+					absteigend
+				</button>
+				<button ng-click="search.localSearchOptions.sort.sort = '+'"
+					ng-class="{active: search.localSearchOptions.sort.sort === '+'}">
+					aufsteigend
+				</button>
+			</div>
+		</div>
+		<div class="filter_row">
+			<h4>Medientyp</h3>
+			<div class="filter_group">
+				<button ng-click="search.localSearchOptions.filter.media = 'all'"
+					ng-class="{active: search.localSearchOptions.filter.media == 'all'}">
+					Alle
+				</button>
+				<button ng-click="search.localSearchOptions.filter.media = 'video'"
+					ng-class="{active: search.localSearchOptions.filter.media == 'video'}">
+					Video
+				</button>
+				<button ng-click="search.localSearchOptions.filter.media = 'audio'"
+					ng-class="{active: search.localSearchOptions.filter.media == 'audio'}">
+					Audio
+				</button>
+				<button ng-click="search.localSearchOptions.filter.media = 'gallery'"
+					ng-class="{active: search.localSearchOptions.filter.media == 'gallery'}">
+					Bild
+				</button>
+			</div>
+		</div>
+	</section>
+</div>
+
+<div class="row content">
+	<section class="medium-8 small-centered columns content" style="margin-bottom:10px;">
+		<div class="itemwrap">
+			<div ng-repeat="searchresult in search.sm.results | filter:search.getFilterFilterOptions | orderBy:search.getOrderFilterOptions()"
+				ng-init="item = searchresult.item()">
+				<article
+					item="item"
+					topstory="false">
+				</article>
+			</div>
+		</div>
+	</section>
+</div>
+
+<footer class="row" ng-include="'app/components/footer/footer.html'"></footer>

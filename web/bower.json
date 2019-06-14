@@ -1,0 +1,54 @@
+{
+  "name": "medienportal",
+  "version": "3.0.1",
+  "dependencies": {
+    "angular-animate": "=1.5.0",
+    "angular-touch": "=1.5.0",
+    "angular-sanitize": "=1.5.0",
+    "jquery": "~2.1.1",
+    "angular-route": "=1.5.0",
+    "angular-foundation": "~0.5.1",
+    "angular": "=1.5.0",
+    "angular-easyfb": "~1.2.1",
+    "angular-google-plus": "~0.1.2",
+    "angulartics": "~0.17.2",
+    "angularjs-file-upload": "~4.0.3",
+    "angular-loading-bar": "~0.7.1",
+    "ng-tags-input": "~2.3.0",
+    "angular-macgyver": "~0.6.1",
+    "angular-inview": "~1.5.0",
+    "moment": "~2.10.2",
+    "foundation": "~5.5.2",
+    "ngDialog": "~0.5.1",
+    "angular-cookies": "~1.4.6",
+    "angularjs-toaster": "~0.4.15"
+  },
+  "devDependencies": {
+    "angular-mocks": "=1.5.0"
+  },
+  "resolutions": {
+    "angular": "1.5.0",
+    "angular-animate": "=1.5.0"
+  },
+  "overrides": {
+    "angulartics": {
+      "main": [
+        "src/angulartics.js",
+        "src/angulartics-ga.js"
+      ],
+      "dependencies": {
+        "angular": "*",
+        "SHA-1": "*"
+      }
+    },
+    "foundation": {
+      "main": []
+    },
+    "moment": {
+      "main": [
+        "moment.js",
+        "locale/de.js"
+      ]
+    }
+  }
+}

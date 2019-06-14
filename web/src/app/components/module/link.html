@@ -1,0 +1,46 @@
+<div class="link">
+	<div ng-if="isEditing()" ng-repeat-start="link in module.files" class="row">
+        <mac-autocomplete
+                mac-autocomplete-source="searchByTitle"
+                mac-autocomplete-on-select="selectLink(selected, link)"
+                mac-autocomplete-delay="200"
+                mac-placeholder="'Suche nach Titel'"
+                ng-model="searchcontent"
+                class="large-12 columns">
+            <span ng-show="item.type !== 'external'">
+                <img ng-src="{{item.getPreview('small')}}" alt="{{item.title}}" style="height: 75px" />
+                <b>{{item.title}}</b>
+            </span>
+			<span ng-show="item.type === 'external'">
+				<img
+					ng-src="{{item.og.ogImage.url}}"
+					alt="{{item.og.ogTitle || item.src}}"
+					ng-show="item.og.ogImage"
+					style="width: auto; height: auto; max-width: 125px; max-height: 75px;"/>
+				<b>{{item.og.ogTitle || item.src}}</b>
+            </span>
+        </mac-autocomplete>
+	</div>
+
+	<article class="item collection page" ng-repeat-end>
+		<a ng-href="{{baseUrl + '/' + link.modelName.toLowerCase() + '/' + link.src}}" ng-if="link.type === 'internal'">
+			<div ng-show="link.src" style="border:1px solid lightgray !important; border-radius:2px;">
+				<img ng-src="{{link._item.getPreview('small')}}" class="hide-for-small"
+					alt="{{link._item.title}}"/>
+				<h2>{{link._item.title}}</h2>
+				<p class="excerp teasertext">{{link._item.config.excerp}}</p>
+			<div>
+		</a>
+		<a ng-href="{{link.src}}" ng-if="link.type === 'external'" target="_blank">
+			<img ng-src="{{link.og.ogImage.url}}" alt="{{link.og.ogTitle || link.src}}" ng-if="link.og.ogImage" />
+			<h2>{{link.og.ogTitle || link.src}}</h2>
+			<p class="excerp teasertext" ng-if="link.og.ogDescription">{{link.og.ogDescription}}</p>
+		</a>
+        <button class="remove" ng-click="deleteFile(link)" ng-if="isEditing()">Verlinkung entfernen.</button>
+	</article>
+	<div ng-if="isEditing()">
+		<a class="addanother internal" ng-click="module.files.push({ type: 'internal', src: unedefined, modelName: undefined })">
+			<i class="fi-plus" style="margin-right:5px"></i> Medienportal-Verknüpfung hinzufügen
+		</a>
+	</div>
+</div>

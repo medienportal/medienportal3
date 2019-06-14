@@ -1,0 +1,8 @@
+<div>
+	<button ng-click="likeItem()" ng-if="!didLikeItem()" class="like"><i class="fi-heart"></i>Empfehlen</button>
+	<button ng-click="likeItem()" ng-if="didLikeItem()" class="active"><i class="fi-heart"></i><i class="fi-x"></i>gefällt mir<span>&nbsp;nicht mehr</span></button>
+	<button class="likes">{{item.likes.length || '0'}}</button>
+</div>
+<div class="liking_users">
+	<img ng-src="{{user.getImage()}}" alt="defaultavatar" title="{{user.name}}" class="profile_picture" ng-repeat="user in likingUsers() | limitTo: 6 track by $index"/>
+</div>

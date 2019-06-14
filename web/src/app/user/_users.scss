@@ -1,0 +1,34 @@
+.page.users {
+	margin-top: 100px;
+	.useroverview {
+		div.maininfo {
+			border: 1px solid #ccc;
+			background-color: #fff;
+			.common {
+				img {
+					float: left;
+					margin: 5px;
+				}
+			}
+			.adminright.group {
+				& > {
+					float: left;
+				}
+			}
+		}
+		.rightmanagmentoptions {
+			clear: both;
+		}
+		.categorygroup {
+			overflow: auto;
+		}
+		.group {
+			float: left;
+			margin-left: 15px;
+			& > * {
+				float: right;
+				margin: 3px;
+			}
+		}
+	}
+}

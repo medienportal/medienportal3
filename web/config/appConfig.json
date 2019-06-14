@@ -1,0 +1,30 @@
+{
+  "app": {
+    "ngModule" : "medienportal",
+
+    "dev"  : ".dev",
+    "dist" : "build",
+    "src"  : "app",
+    "test" : "test",
+
+    "assets": {
+      "bower"     : "lib",
+      "fonts"     : "fonts",
+      "images"    : "images",
+      "scripts"   : "scripts",
+      "styles"    : "styles",
+      "templates" : "templates"
+    },
+
+    "engines": {
+      "coffeeScript" : false,
+      "compass"      : true,
+      "jade"         : false
+    }
+  },
+  "configuration": {
+  	"dev": "window.api_endpoint = 'https://localhost:9000'; window.MAX_SIMULTANIOUS_UPLOAD_REQUESTS = 1;",
+  	"staging": "window.api_endpoint = 'https://preview.api.medienportal.org:9000';window.MAX_SIMULTANIOUS_UPLOAD_REQUESTS = 1;",
+  	"production": "window.api_endpoint = 'https://api.medienportal.org'; window.MAX_SIMULTANIOUS_UPLOAD_REQUESTS = 2;"
+  }
+}

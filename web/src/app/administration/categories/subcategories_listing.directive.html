@@ -1,0 +1,16 @@
+<ul class="subcategories">
+	<li
+		ng-repeat="subcat in items | orderBy:'position'"
+		id="subcategory_{{subcat.id}}"
+		draggable="true">
+		<i contenteditable ng-model="subcat.title" ng-blur="subcat.save()"></i>
+		<span>&nbsp;·&nbsp;</span>
+		<span ng-click="subcategories.removeSubcategory(subcat)">entfernen</span>
+		<span ng-click="subcategories.moveSubcategory(subcat)" class="right fi-list"></span>
+	</li>
+	<li class="new">
+		<a href="" ng-click="subcategories.createSubcategory(selectedCategory)">
+			+ Navigationselement
+		</a>
+	</li>
+</ul>

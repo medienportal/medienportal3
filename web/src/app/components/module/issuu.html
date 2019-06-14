@@ -1,0 +1,14 @@
+<div class="iframe_embed_responsive">
+	<iframe
+		ng-src="{{'//e.issuu.com/embed.html#' + module.files[0]}}"
+		ng-if="module.files[0]"
+		frameborder="0"
+		marginwidth="0"
+		marginheight="0"
+		scrolling="no"
+		allowfullscreen>
+	</iframe>
+</div>
+<div class="issuelink" ng-if="isEditing()">
+	Link: issuu.com/chamaeleon/docs/?e=<input type="text" ng-model="module.files[0]" ng-blur="module.save()" ng-change="realtime()" />
+</div>

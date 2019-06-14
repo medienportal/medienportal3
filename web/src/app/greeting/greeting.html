@@ -1,0 +1,38 @@
+<div class="row gray">
+    <div class="medium-4 columns content">
+    	<div class="activity_box">
+        <h3 class="rightside">Grüß die Welt, wie es dir gefällt!</h3>
+
+        <form ng-submit="greetings.addGreeting(greetings.newGreeting)" class="input greeting">
+            <input
+                type="text"
+                name="author"
+                ng-if="!greetings.cache.current_user.isLoggedIn()"
+                ng-model="greetings.newGreeting.author.author_id"
+                placeholder="Name"
+                class="author">
+            <div class="author" ng-if="greetings.cache.current_user.isLoggedIn()">
+                <img ng-src="{{greetings.cache.current_user.getImage()}}" class="profilbild" ng-if="greetings.cache.current_user.getImage()" />
+                {{greetings.cache.current_user.name}}
+            </div>
+            <textarea panda-replace-emojis name="comment" required placeholder="Wem sagst du Hallo?" ng-model="greetings.newGreeting.content" class="comment"></textarea>
+            <input name="submit" type="submit" value="Gruß abschicken" class="submit">
+        </form>
+        </div>
+    </div>
+
+    <div class="medium-8 columns content white">
+        <div
+        	class="medium-6 columns greetings content"
+        	ng-repeat="greeting in greetings.greetings() | orderBy:'created_at':true"
+        	panda-greeting-positioning>
+            <article class="comment">
+                <p>
+                	<img class="profilbild" ng-src="{{greeting.getUser().getImage()}}" alt="{{greeting.getUser().name}}" width="92" height="92" ng-if="greeting.getUser().getImage()">
+                	<span class="namec">{{greeting.getUser().name}}</span><span class="commenttime"> · {{greetings.moment(greeting.created_at).fromNow()}}</span></br>
+            	<div ng-bind-html="greetings.transform(greeting.content)"></div>
+                </p>
+            </article>
+        </div>
+    </div>
+</div>

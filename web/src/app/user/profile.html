@@ -1,0 +1,96 @@
+<div class="row content nolayout profile" style="margin-bottom:15px;">
+	<nav>
+		<ul>
+			<li>Profil</li>
+			<!-- <li>Meine Artikel</li>
+			<li>Freigabe (X)</li> -->
+		</ul>
+	</nav>
+	<div class="small-11 medium-10 large-8 small-centered columns content">
+		<div class="wrap">
+			<section>
+				<div class="row content user">
+					<div class="small-3 columns content">
+						<div class="box inputfile_wrap">
+							<input type="file" ngf-drop ngf-select ngf-change="profile.user.uploadImage($files[0])" />
+							<img ng-src="{{profile.user.getImage()}}" class="profilbild" />
+							<p><i class="fi-upload-cloud"></i> aktualisieren</p>
+						</div>
+					</div>
+					<div class="small-9 columns content">
+						<div class="box name">
+							<h3>Name</h3>
+							<p>
+								<span contenteditable="{{profile.canEdit() && (profile.settings.name == true)}}" ng-model="profile.newuser.name"></span>
+								<a class="edit" ng-click="profile.setFocus('name')" ng-hide="profile.settings.name">
+									<i class="fi-pencil"></i> ändern
+								</a>
+								<span ng-show="profile.settings.name">
+									<a ng-click="profile.save('name')">aktualisieren</a>
+									<a ng-click="profile.cancel('name')">abbrechen</a>
+								</span>
+							</p>
+						</div>
+						<div class="box email">
+							<h3>Email</h3>
+							<p><pan>{{profile.user.email}}</pan></p>
+						</div>
+						<h2>Schule</h2>
+						<div class="box class">
+							<h3>Klasse</h3>
+							<form ng-submit="profile.setKlass()">
+								<select
+									ng-model="profile.newuser.klass.first"
+									required="true"
+									ng-options="klass for klass in ['5', '6', '7', '8', '9', '10', '11', '12']"
+									ng-change="profile.save('klass')">
+								</select>
+								<select
+									ng-model="profile.newuser.klass.second"
+									ng-required="profile.newuser.klass.first != '11' && profile.newuser.klass.first != '11'"
+									ng-show="profile.newuser.klass.first && (profile.newuser.klass.first != '11' && profile.newuser.klass.first != '11')"
+									ng-options="klass for klass in ['1', '2', '3', '4', '5', '6']"
+									ng-change="profile.save('klass')">
+								</select>
+								<p ng-show="profile.newuser.klass" class="removeclass"><a ng-click="profile.removeClass()" href="#">entfernen</a></p>
+							</form>
+						</div>
+						<div class="box vita">
+							<h3>Vita (max. 70 Zeichen)</h3>
+							<textarea placeholder="Beschreibe dich kurz." maxlength="70" ng-model="profile.user.description" ng-blur="profile.user.save()"></textarea>
+						</div>
+						<h2>Benutzerkonto</h2>
+						<div class="box services">
+							<h3>Benachrichtigungen</h3>
+							<ul>
+								<li>
+									<input type="checkbox"
+									       id="c1"
+									       ng-model="profile.user.settings.notifications.item_is_set_ready"
+											ng-change="profile.user.save()" />
+									<label for="c1">Artikel wird zur Korrektur freigegeben</label>
+								</li>
+							</ul>
+						</div>
+						<div class="box services">
+							<h3>verbundene Dienste</h3>
+							<ul class="profile_services">
+								<li ng-repeat="service in profile.user.services">
+									<i class="fi-check" style="color:#00a15a;margin-right:5px;"></i> {{service.service_name}}
+								</li>
+								<li style="color:lightgray"><i class="fi-plus" style="margin-right:5px"></i> hinzufügen
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section ng-if="profile.publishedArticles().length > 0" style="margin-bottom:10px">
+				<h3>Artikel</h3>
+				<article item="article" ng-repeat="article in profile.publishedArticles()"></article>
+			</section>
+
+		</div>
+	</div>
+</div>

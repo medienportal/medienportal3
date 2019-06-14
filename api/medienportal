@@ -1,0 +1,152 @@
+#!/usr/bin/env node
+
+var config = require('./config'),
+argv = require('yargs').argv,
+prompt = require('prompt'),
+async = require('async'),
+mongoose = require('mongoose'),
+client = require('./service/redis_client');
+
+mongoose.set('debug', true);
+
+client.on("error", function (err) {
+    console.log("Redis connection error to " + redis.host + ":" + redis.port + " - " + err);
+});
+client.on("connect", function (err){
+    client.auth(config.redis.password, function() {
+        mongoose.connect(config.mongo.db);
+        var db = mongoose.connection;
+        db.on('error', console.error.bind(console, 'connection error:'));
+        db.once('open', init);
+    });
+});
+
+var tasks = {
+    "user:create": function() {
+        var User = require('model/user');
+
+        // create a user
+        console.log('create user ...');
+        delete argv._;
+        delete argv.password;
+        delete argv._id;
+        delete argv.id;
+        delete argv.$0;
+
+        var user = new User(argv);
+        user.save(function(err, user) {
+            if (err) throw err;
+            console.log('user created: ', user);
+            process.exit(0);
+        });
+    },
+    "user:set_password": function() {
+        var User = require('./model/user'),
+            Account = require('./model/account');
+
+        if (!argv.email) throw 'Please specify a user by Password.';
+        if (!(argv.account_title || argv.account_id)) throw 'Please specify an account via --account_title or account.';
+        var user
+        async.waterfall([
+            function(cb) {
+                Account.findOne({ $or: [{ title: argv.account_title }, { _id: argv.accound_id } ]}, cb);
+            },
+            function(account, cb) {
+                if (!account) cb(new Error('account not valid.'));
+                User.findOne({ email: argv.email, account_id: account.id }, cb);
+            },
+            function(_user, cb) {
+                user = _user;
+                if (!user) return cb(new Error('user with email ' + argv.email + ' not found.'));
+                prompt.get({properties: {password: { hidden: true }}}, cb);
+            },
+            function(prompt_result, cb) {
+                if (!prompt_result.password) return cb('no passwort set!');
+                user.setPassword(prompt_result.password, cb);
+            }
+            ], function(err, user) {
+                if (err) {
+                    console.error(err);
+                    process.exit(1);
+                }
+                console.log('password set.');
+                process.exit(0);
+            });
+    },
+    "mongo:reindex": function() {
+        var models = {};
+        ['Account', 'Activity', 'Category', 'Collection', 'Comment', 'Greeting', 'Message', 'Module', 'Page', 'Trivia', 'User'].forEach(function(model) {
+            models[model] = require('./model/' + model.toLowerCase());
+        });
+        setTimeout(function() { process.exit(0); }, 1000);
+    },
+    "elasticsearch:reindex": function() {
+        var es = require('elasticsearch').Client(JSON.parse(JSON.stringify(config.elasticsearch)));
+        var Page = require('./model/page'),
+            Comment = require('./model/comment'),
+            User = require('./model/user'),
+            Collection = require('./model/collection');
+
+        async.series([
+            Page.Search.recreateIndex,
+            Page.Search.reindexAll,
+            Collection.Search.recreateIndex,
+            Collection.Search.reindexAll,
+            User.Search.recreateIndex,
+            User.Search.reindexAll,
+        ], function(_err) {
+            if (_err) {
+                throw _err;
+                process.exit(1);
+            }
+            process.exit(0);
+        });
+    },
+    "elasticsearch:reindex:pages": function() {
+        var es = require('elasticsearch').Client(JSON.parse(JSON.stringify(config.elasticsearch)));
+        var Page = require('./model/page');
+
+        async.series([
+            Page.Search.recreateIndex,
+            Page.Search.reindexAll,
+        ], function(_err) {
+            if (_err) {
+                throw _err;
+                process.exit(1);
+            }
+            process.exit(0);
+        });
+    },
+    "elasticsearch:reindex:users": function() {
+        var es = require('elasticsearch').Client(JSON.parse(JSON.stringify(config.elasticsearch)));
+        var User = require('./model/user');
+
+        async.series([
+            User.Search.recreateIndex,
+            User.Search.reindexAll,
+        ], function(_err) {
+            if (_err) {
+                throw _err;
+                process.exit(1);
+            }
+            process.exit(0);
+        });
+    }
+}
+
+function init() {
+    var task_names = Object.keys(tasks);
+    if (!argv._.length) {
+        console.log('Please specify a task. You can choose these:');
+        console.log(task_names);
+        process.exit(1);
+    }
+    var task_name = argv._[0];
+    var i = task_names.indexOf(task_name);
+    if (i < 0) {
+        console.log('The task ' + task_name + ' does not exist. You can choose these:');
+        console.log(task_names);
+        process.exit(1);
+    }
+    tasks[task_name]();
+}

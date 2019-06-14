@@ -1,0 +1,103 @@
+<div class="row content settings categories nolayout trivia">
+	<div ng-include="'app/administration/navigation.html'"></div>
+	<div class="row">
+		<aside class="medium-4 content columns">
+			<div class="wrap both">
+				<div class="box sub_navigation">
+					<ul>
+						<li ng-class="{ active: selectedSection == 'didyouknow' }" ng-click="selectedSection = 'didyouknow'">
+							Wusstest du schon?
+						</li>
+						<li ng-class="{ active: selectedSection == 'vplan' }" ng-click="selectedSection = 'vplan'">
+							Vertretungsplan
+						</li>
+						<li ng-class="{ active: selectedSection == 'calendar' }" ng-click="selectedSection = 'calendar'">
+							Terminkalender
+						</li>
+					</ul>
+				</div>
+			</div>
+		</aside>
+
+		<div class="medium-8 columns">
+			<section class="events" ng-show="selectedSection == 'calendar'">
+				<h2><i class="fi-calendar"></i> Terminkalender</h2>
+				<div class="box">
+					<h3>URL für öffentlichen iCal-Kalender: (z.B. Google)</h3>
+					<form ng-submit="settings.calendarSettings.save()">
+						<input type="url" ng-model="settings.calendarSettings.uri" placeholder="http://www.schulferien.org/iCal/Ferien/icals/Ferien_Sachsen_2016.ics" />
+						<select ng-model="settings.calendarSettings.limit">
+							<option value="5">max. 5 Einträge anzeigen</option>
+							<option value="10">max. 10 Einträge anzeigen</option>
+							<option value="15">max. 15 Einträge anzeigen</option>
+							<option value="20">max. 20 Einträge anzeigen</option>
+							<option value="25">max. 25 Einträge anzeigen</option>
+							<option value="30">max. 30 Einträge anzeigen</option>
+							<option value="">Anzahl der Beiträge nicht begrenzen</option>
+						</select>
+						<input type="submit" value="speichern" />
+					</form>
+				</div>
+			</section>
+
+			<section class="events" ng-show="selectedSection == 'vplan'">
+				<h2><i class="fi-web"></i> Vertretungsplan</h2>
+				<form class="box" ng-submit="settings.vplanSettings.save()">
+					<div class="row">
+						<div class="large-12 columns">
+							<label>
+								Link zur Vertretungsplan-Datei:
+								<input
+									type="text"
+									placeholder="http://example.com/pfad/vps[[JahrMonatTag]].xml"
+									ng-model="settings.vplanSettings.uri" />
+							</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="large-12 columns">
+							<label>
+								Vertretungsplan anzeigen:
+								<input type="checkbox" ng-model="settings.vplanSettings.enabled" />
+							</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="large-12 columns">
+							<input type="submit" value="speichern" />
+						</div>
+					</div>
+				</form>
+			</section>
+
+			<section class="didyouknow" ng-show="selectedSection == 'didyouknow'">
+				<h2>Wusstest du schon?</h2>
+				<div class="row">
+					<div class="large-12 columns">
+						<label>
+							"Wusstest du schon?" anzeigen:
+							<input type="checkbox" ng-model="settings.didyouknowSettings.enabled" ng-change="settings.didyouknowSettings.save()" />
+						</label>
+					</div>
+				</div>
+				<ul class="categories">
+					<li>
+						<div class="new">
+							<textarea ng-model="trivia.content"></textarea>
+							<a href="" ng-click="settings.add_trivia(trivia)">+ hinzufügen</a>
+						</div>
+					</li>
+					<li ng-repeat="trivia in settings.cache.trivias">
+						<div class="category">
+							<p ng-hide="settings.trivias.isEditingTrivia == $index">{{trivia.content}}</p>
+							<textarea ng-show="settings.trivias.isEditingTrivia == $index" ng-model="trivia.content"></textarea>
+							<a href="" ng-click="trivia.delete()" class="delete">löschen</a>
+							<a href="" ng-click="settings.trivias.isEditingTrivia = $index" class="edit" ng-hide="settings.trivias.isEditingTrivia == $index">bearbeiten</a>
+							<a href="" ng-click="trivia.save(); settings.trivias.isEditingTrivia = -1" class="edit" ng-show="settings.trivias.isEditingTrivia == $index">speichern</a>
+						</div>
+					</li>
+				</ul>
+			</section>
+		</div>
+	</div>
+</div>

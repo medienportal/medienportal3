@@ -1,0 +1,88 @@
+<div class="user-register">
+	<section class="registeruser step-0" ng-if="!register.step">
+		<h1>Registriere dich!</h1>
+		<p class="teaser">Dadurch kannst du deinen Vertretungsplan gleich auf der Startseite anzeigen, dein eigenes Profilbild verwenden und noch viel mehr.</p>
+
+		<div class="federated">
+			<a class="facebook" ng-click="register.facebookLogin()">
+				<span>mit Facebook registrieren</span>
+			</a>
+			<a class="google" ng-click="register.gPlusLogin()">
+				<span>mit Google registrieren</span>
+			</a>
+		</div>
+
+		<form ng-submit="register.doRegister()">
+			<label for="reg_name">Damit deine Freunde wissen, wer du bist:</label>
+			<input id="reg_name" type="text" placeholder="Vor- und Nachname" ng-model="register.userInfo.name">
+			<label for="reg_name">So erkennen wir dich wieder:</label>
+			<input type="email" placeholder="Email" ng-model="register.userInfo.email">
+			<input type="password" placeholder="Passwort" ng-model="register.userInfo.password">
+			<input class="submit" type="submit" ng-value="register.status" ng-disabled="register.status != 'registrieren'"/>
+		</form>
+		<div style="clear:both;"></>
+	</section>
+
+	<section class="registeruser step-1" ng-if="register.step === 1">
+		<h1>Hurra, es hat geklappt!</h1>
+		<p class="teaser" style="padding-bottom:25px;">Du wurdest erfolgreich registriert. Wir haben sogar dein Profilbild übernommen.</p>
+		<form>
+		<img ng-src="{{register.user.getImage()}}" style="width: 200px" />
+		<input style="submit" type="submit" ng-value="'weiter'" ng-click="register.step = 3" />
+		<a style="lost" ng-click="register.step = 2">anderes Profilbild</a>
+		</form>
+		<div style="clear:both;"></div>
+	</section>
+
+	<section class="registeruser step-2" ng-if="register.step === 2">
+		<h1>Hurra, es hat geklappt!</h1>
+		<p class="teaser" style="padding-bottom:25px;">Wähle nun ein Profilbild, was am besten zu dir passt.</p>
+		<form ng-submit="register.saveUserAvatar()">
+			<img src="/assets/images/profilNo1.jpg" title="Profilbild No 1" ng-click="register.avatar.selected = 1" ng-class="{active: (register.avatar.selected == 1)}" />
+			<img src="/assets/images/profilNo2.jpg" title="Profilbild No 2" ng-click="register.avatar.selected = 2" ng-class="{active: (register.avatar.selected == 2)}" />
+			<img src="/assets/images/profilNo3.jpg" title="Profilbild No 3" ng-click="register.avatar.selected = 3" ng-class="{active: (register.avatar.selected == 3)}" />
+			<img src="/assets/images/profilNo4.jpg" title="Profilbild No 4" ng-click="register.avatar.selected = 4" ng-class="{active: (register.avatar.selected == 4)}" />
+			<img src="/assets/images/profilNo5.jpg" title="Profilbild No 5" ng-click="register.avatar.selected = 5" ng-class="{active: (register.avatar.selected == 5)}" />
+			<img src="/assets/images/profilNo6.jpg" title="Profilbild No 6" ng-click="register.avatar.selected = 6" ng-class="{active: (register.avatar.selected == 6)}" />
+			<img src="/assets/images/profilNo7.jpg" title="Profilbild No 7" ng-click="register.avatar.selected = 7" ng-class="{active: (register.avatar.selected == 7)}" />
+			<img ng-src="{{register.avatar.custom_source}}" title="Eigenes Profilbild" ng-if="register.avatar.custom_source" ng-click="avatar.selected = 'custom'" ng-class="{active: (register.avatar.selected == 'custom')}" />
+			<div class="custom_wrapper">
+				<a ngf-select ngf-change="register.setAvatarFromHdd($files)" ><i class="fi-upload"></i><span>eigenes Bild hochladen</span></a>
+				<a ng-click="register.setupAvatarscreenFromWebcam()" ng-if="register.isWebcamAvailable()"><i class="fi-camera"></i><span>Schnappschuss mit der Webcam machen</span></a>
+			</div>
+			<input class="submit" type="submit" ng-value="'weiter'" ng-disabled="!register.avatar.selected"/>
+			<div style="clear:both;"></div>
+		</form>
+	</section>
+
+	<section class="registeruser step-25" ng-if="register.step === 2.5">
+		<h1>Profilbild aufnehmen</h1>
+		<div style="text-align: center;padding-top: 20px;" class="webcam-screen-video-wrapper">
+			<video style="width: 200px; height: 200px;" id="webcam-screen-video"></video>
+		</div>
+		<img ng-src="{{register.webcam_avatar}}" style="width: 200px" />
+		<form>
+			<a class="lost" ng-click="register.step = 2">zurück</a>
+			<input class="submit" type="submit" ng-value="'speichern'" ng-click="register.saveUserAvatarFromWebcam()" ng-disabled="!register.localMediaStream" />
+		</form>
+		<div style="clear:both;"></div>
+	</section>
+
+	<section class="registeruser step-3" ng-if="register.step === 3">
+		<h1>Setze jetzt deine Klasse</h1>
+		<p class="teaser" style="padding-bottom:25px;">Du kannst deine Klasse setzen, damit dir dein persönlicher Stundenplan angezeigt werden kann. Dies ist optional.</p>
+		<form ng-submit="register.saveUserClass()">
+			<select
+				ng-model="register.newklass.first"
+				ng-options="klass for klass in ['5', '6', '7', '8', '9', '10', '11', '12']">
+			</select>
+			<select
+				ng-model="register.newklass.second"
+				ng-show="register.newklass.first && (register.newklass.first != '11' && register.newklass.first != '11')"
+				ng-options="klass for klass in ['1', '2', '3', '4', '5', '6']">
+			</select>
+			<input class="submit" style="margin-top:20px;" type="submit" ng-value="'weiter'" />
+		</form>
+		<div style="clear:both;"></div>
+	</section>
+</div>

@@ -1,0 +1,188 @@
+<header ng-class="{fullsize: fullsize}">
+	<!-- für die Fotoansicht -->
+	<div class="header_inner" ng-if="currentCollection && currentCollectionFile">
+		<div class="header_left">
+			<div class="closebutton hide-for-small" ng-if="currentCollectionFile" ng-click="open('/collection/' + currentCollection.id)"><i  style="margin-right: 10px;" class="fi-x"></i>Schließen</div>
+			<div class="closebutton show-for-small" ng-if="currentCollectionFile" ng-click="open('/collection/' + currentCollection.id)"><i  class="fi-x"></i></div>
+		</div>
+		<div class="header_right hide-for-small">
+			<div class="login-menu" style="border-color:lightgray;" ng-hide="header.cache.current_user.isLoggedIn()">
+				<div class="login-button" ng-click="header.openLoginDialog()">
+						anmelden
+				</div>
+				<span>oder</span>
+				<div class="login-button hide-for-medium"  style="float:right;margin-left: 8px;margin-right:0;" ng-click="header.openRegisterDialog()">registrieren</div>
+			</div>
+			<div class="user-nav dropdown-wrapper" ng-show="header.cache.current_user.isLoggedIn()">
+				<ul class="dropdown">
+					<li>
+						<!-- Profil -->
+						<div ng-click="open('/profile')" class="user-wrapper">
+							<div class="user-avatar">
+								<img ng-src="{{header.cache.current_user.getImage()}}"/>
+							</div>
+							<div class="user-name">{{header.cache.current_user.name}}</div>
+						</div>
+						<!-- Untermenue -->
+						<ul class="submenu logout">
+							<li ng-click="open('/profile')">Profil</li>
+							<li ng-click="open('/administration')">Administration</li>
+							<li ng-click="open('/article_overview')" ng-if="header.cache.current_user.isCoworker()">
+								Artikelübersicht ({{header.onlineCounter()}})
+							</li>
+							<li class="borderTop" ng-click="header.cache.logout()">Abmelden</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="header_middle">
+			<nav class="nextprev hide-for-small">
+					<div
+						class="prev"
+						ng-class="{active: currentCollection.hasPreviousFile(currentCollectionFile)}"
+						ng-click="header.openCollectionFile(currentCollection.previousFile(currentCollectionFile))"><i style="margin-right: 5px;" class="fi-arrow-left"></i> vorheriges</div>
+
+					<span ng-if="currentCollection" style="margin:0 10px;">
+						{{currentCollection.indexOfFile(currentCollectionFile) + 1}} von {{currentCollection.files.length}}
+					</span>
+
+					<div
+						class="next"
+						ng-class="{active: currentCollection.hasNextFile(currentCollectionFile)}"
+						ng-click="header.openCollectionFile(currentCollection.nextFile(currentCollectionFile))">nächstes <i  style="margin-left: 5px;" class="fi-arrow-right"></i></div>
+			</nav>
+			<nav class="nextprev show-for-small">
+					<div
+						class="prev"
+						ng-class="{active: currentCollection.hasPreviousFile(currentCollectionFile)}"
+						ng-click="header.openCollectionFile(currentCollection.previousFile(currentCollectionFile))"><i style="margin-right: 5px;" class="fi-arrow-left"></i> vorheriges</div>
+					<div
+						class="next"
+						ng-class="{active: currentCollection.hasNextFile(currentCollectionFile)}"
+						ng-click="header.openCollectionFile(currentCollection.nextFile(currentCollectionFile))">nächstes <i  style="margin-left: 5px;" class="fi-arrow-right"></i></div>
+			</nav>
+		</div>
+	</div>
+	<!-- Standart-Navigation -->
+	<div class="header_inner hide-for-small" ng-hide="fullsize">
+		<div class="header_left">
+			<div class="header_logo">
+				<a href="/" title="Zurück zur Hauptseite">
+					<img src="/assets/images/icon.png" ng-if="!currentCollectionFile" alt="Icon Medienportal" />
+				</a>
+			</div>
+			<nav ng-hide="header.searchIsActive" role="navigation" class="header_navWrapper">
+				<ul>
+					<li ng-click="open('/')"
+							class="hide-for-medium"
+							ng-class="{active: (!currentCollection && !currentCategory && !currentPage)}"
+							>
+								Startseite
+					</li>
+					<li ng-repeat="category in header.getHomepageCategories() | orderObjectsBy:'position'"
+							ng-click="open('/category/' + category.id)"
+							ng-class="{active: header.isActiveCategory(category)}"
+							>
+								{{category.title}}
+					</li>
+				</ul>
+			</nav>
+		</div>
+		<div class="header_right">
+			<div class="login-menu" ng-hide="header.cache.current_user.isLoggedIn()">
+				<div class="login-button" ng-click="header.openLoginDialog()">anmelden</div>
+				<span>oder</span>
+				<div class="signup-button"  ng-click="header.openRegisterDialog()">registrieren</div>
+			</div>
+			<div class="article-nav hide-for-medium" ng-show="header.cache.current_user.canCreatePage(currentCategory.id)">
+				<div ng-if="header.showCreateButton()" ng-click="header.openNewPageModal()">
+					Seite erstellen
+				</div>
+			</div>
+			<div class="user-nav dropdown-wrapper" ng-show="header.cache.current_user.isLoggedIn()">
+				<ul class="dropdown">
+					<li>
+						<!-- Profil -->
+						<div ng-click="open('/profile')" class="user-wrapper">
+							<div class="user-avatar">
+								<img ng-src="{{header.cache.current_user.getImage()}}"/>
+							</div>
+							<div class="user-name hide-for-medium">{{header.cache.current_user.name}}</div>
+						</div>
+						<!-- Untermenue -->
+						<ul class="submenu logout">
+							<li ng-click="open('/profile')">Profil</li>
+							<li ng-click="open('/article_overview')" ng-if="header.cache.current_user.isCoworker()">
+								Meine Artikel
+							</li>
+							<li ng-click="open('/article_overview')" ng-if="header.cache.current_user.isCoworker()">
+								Freigabe ({{header.onlineCounter()}})
+							</li>
+							<li ng-if="header.showCreateButton()" ng-click="header.openNewPageModal()" class="show-for-medium borderTop">
+								Seite erstellen
+							</li>
+							<li class="borderTop" ng-click="open('/administration')" ng-if="header.cache.current_user.isAdmin()">
+								Übersicht
+							</li>
+							<li ng-if="header.cache.current_user.isAdmin()" ng-click="open('/administration/users')">Rechteverwaltung</li>
+							<li ng-if="header.cache.current_user.isAdmin()" ng-click="open('/administration/categories')">Kategorien</li>
+							<li ng-if="header.cache.current_user.isAdmin()" ng-click="open('/administration/themes')">Themes</li>
+							<li ng-if="header.cache.current_user.isAdmin()" ng-click="open('/administration/trivia')">Homepageboxen</li>
+							<li class="borderTop" ng-click="header.cache.logout()">Abmelden</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="header_middle">
+			<div class="header_search">
+				<form role="search">
+					<input type="text"
+						ng-model="searchtext"
+						ng-model-options="{ debounce: 200 }"
+						ng-change="header.sm.get({ text: searchtext })"
+						ng-focus="header.searchIsActive = true"
+						ng-blur="header.searchIsActive = false"
+						placeholder="Suche nach Artikeln, Schlagworten, Personen" />
+			</div>
+		</div>
+	</div>
+	<!-- mobile Navigation  -->
+	<div class="header_inner show-for-small">
+		<div class="header_left">
+			<div class="header_logo">
+				<a href="/" title="Zurück zur Hauptseite">
+					<img src="/assets/images/icon.png" ng-if="!currentCollectionFile" alt="Icon Medienportal" />
+				</a>
+			</div>
+		</div>
+
+		<div class="header_right">
+			<ul>
+			<li class="fi-list mobile-menu-toggle" ng-click="header.showMobileMenu = !header.showMobileMenu">&nbsp;</li>
+			<menu ng-show="header.showMobileMenu">
+				<li ng-click="open('/')">Startseite</button>
+				<li ng-repeat="category in header.getHomepageCategories() | orderObjectsBy:'position'" ng-click="open('/category/' + category.id)">{{category.title}}</li>
+				<li ng-if="!header.cache.current_user.isLoggedIn()" class="li-highlight" ng-click="open('/login')">Anmelden</li>
+				<li ng-if="!header.cache.current_user.isLoggedIn()" class="li-highlight" ng-click="open('/register')">Registrieren</li>
+				<li ng-if="header.cache.current_user.isLoggedIn()" class="li-highlight" ng-click="header.cache.logout()" style="text-align:left;">
+					<img style="height: 25px;border-radius: 3px;margin-right: 5px;margin-left: 5px;" ng-src="{{header.cache.current_user.getImage()}}"/> als {{header.cache.current_user.first_name}} abmelden
+				</li>
+			</menu>
+			</ul>
+		</div>
+
+	</div>
+</header>
+
+<section search-results></section>
+
+<div class="row content hide-for-small" ng-if="lm.hasBanner()" ng-if="!fullsize">
+	<div class="banner">
+		<img ng-src="{{lm.getBannerSrc()}}" alt="Das Banner zu {{header.cache.account.name}}" />
+		<p style="float:left;">{{header.cache.account.name}}</p>
+		<p style="float:right;" class="feedback" ng-click="open('/privacy')">Datenschutz</p>
+		<div style="clear:both;"></div>
+	</div>
+</div>

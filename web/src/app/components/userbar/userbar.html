@@ -1,0 +1,21 @@
+<div ng-if="userbar.cache.current_user.isLoggedIn()" class="userbar_inner">
+	<button
+			ng-click="userbar.cache.current_user.edit_mode = !userbar.cache.current_user.edit_mode"
+			ng-class="{active: userbar.cache.current_user.edit_mode, edit_button: true}" class="hide-for-small"
+			ng-if="userbar.showEditButton()"
+			style="float:right;">
+				<i class="fi-pencil"></i>
+				Seite bearbeiten
+	</button>
+		<ul class="breacrumb" ng-show="userbar.isShowStatusBreadcrumb()">
+			<li ng-class="userbar.breadcrumbClassForStatus('READY')" ng-click="userbar.setStatus('READY')">
+				Freigeben<span class="check"><i class="fi-check"></i></span>
+			</li>
+			<li ng-class="userbar.breadcrumbClassForStatus('CONTROLLED')" ng-click="userbar.setStatus('CONTROLLED')">
+				Kontrolliert<span class="check"><i class="fi-check"></i></span>
+			</li>
+			<li ng-class="userbar.breadcrumbClassForStatus('PUBLISHED')" ng-click="userbar.setStatus('PUBLISHED')">
+				Sichtbar<span class="check"><i class="fi-check"></i></span>
+			</li>
+		</ul>
+</div>

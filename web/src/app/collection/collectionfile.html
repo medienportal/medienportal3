@@ -1,0 +1,50 @@
+<div class="collectionfile">
+	<div
+		class="large-9 medium-12 columns content"
+		ng-click="collectionfile.openNextFile()"
+		ng-swipe-left="collectionfile.openNextFile()"
+		ng-swipe-right="collectionfile.openPreviousFile()">
+			<img ng-src="{{collectionfile.currentCollection.getFile(collectionfile.currentCollectionFile, 'standard')}}" />
+	</div>
+	<div class="large-3 show-for-large-up columns content gray">
+		<article class="box collectionfile-description" ng-if="collectionfile.showDescriptionBox()">
+			<h3 contenteditable="{{collectionfile.isEditing()}}" ng-blur="collectionfile.currentCollectionFile.save()" ng-model='collectionfile.currentCollectionFile.title'></h3>
+			<div contenteditable="{{collectionfile.isEditing()}}" ng-blur="collectionfile.currentCollectionFile.save()" ng-model='collectionfile.currentCollectionFile.description'></div>
+		</article>
+		<div sharebox="collectionfile.currentCollectionFile" ng-hide="collection.isEditing()" class="likebox" style="margin:0 14px; margin-top:15px;"></div>
+		<form ng-submit="collectionfile.addComment()" class="input greeting">
+			<input
+			type="text"
+			name="author"
+			ng-if="!collectionfile.cache.current_user.isLoggedIn()"
+			ng-model="collectionfile.newComment.author.author_id"
+			placeholder="Name"
+			class="author">
+			<div class="author" ng-if="collectionfile.cache.current_user.isLoggedIn()">
+				<img ng-src="{{collectionfile.cache.current_user.getImage()}}" class="profilbild" />
+				{{collectionfile.cache.current_user.name}}
+			</div>
+			<textarea name="comment" required placeholder="Kommentar" ng-model="collectionfile.newComment.content" class="comment" panda-replace-emojis></textarea>
+			<input name="submit" type="submit" value="Kommentar speichern" class="submit">
+		</form>
+
+		<article class="comment" ng-repeat="comment in collectionfile.getComments() | orderBy:'created_at':true track by $index">
+			<div ng-if="comment.author.author_type == 'panda'">
+				<img ng-src="{{comment.getUser().getImage()}}" class="profilbild"> <span class="namec">{{comment.getUser().name}}</span>
+				<span class="flag"> · <i class="fi-flag"></i><span class="underline">melden</span></span><span class="flag"> · <span class="underline">löschen</span></span>
+				<br>
+				{{comment.content}}
+			</div>
+
+			<div ng-if="comment.author.author_type != 'panda'">
+			<span class="namec">{{comment.author.author_id}}</span>
+			<span class="flag"> · <i class="fi-flag"></i><span class="underline">melden</span></span><span class="flag"> · <span class="underline">löschen</span></span><br>
+				{{comment.content}}
+			</div>
+		</article>
+		<div class="box ad">
+			<h3>Werbepause</h3>
+			<a href="http://www.schuelerhilfe.de/delitzsch/" target="_blank"><img src="/assets/images/wer_supp_klickermann_l.png" alt="Mit der freundlichen Unterstützung unseres Sponsors Schülerhilfe Delitzsch" /></a>
+		</div>
+	</div>
+</div>

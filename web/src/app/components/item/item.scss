@@ -1,0 +1,149 @@
+@mixin topstory {
+	> div {
+		padding: 0 !important;
+		background-color: white;
+		border-top: none !important;
+	}
+	img {
+		width: 100%;
+		border-bottom: 1px solid rgba(230, 230, 230, 0.6);
+	}
+	h2 {
+		margin-top: 10px !important;
+		margin-left: 10px !important;
+	}
+	p {
+		padding-left: 10px !important;
+		max-height: none !important;
+	}
+	.excerp {
+			padding: 0px 10px 10px 10px;
+	}
+}
+
+.item.collection {
+	> div {
+		padding: 10px;
+		border-top: 1px solid rgba(230, 230, 230, 0.6);
+	}
+	width: 100%;
+	float: left;
+	img {
+		width: 100%;
+		background: center center;
+		border-radius: 2px;
+	}
+}
+
+.item {
+	a { color: inherit; text-decoration: inherit; }
+	display: block;
+	width: 100%;
+	overflow: hidden;
+	&:not(.topstory) > div {
+		// only medium-sized screens and above can show not-topstory items
+		background-color: white;
+		@media only screen and (min-width: 40.063em) {
+			overflow: hidden;
+			img {
+				border-radius: 2px;
+				height: 150px;
+				width: 200px;
+				margin: 0px 15px 0px 0px;
+				float: left;
+			}
+		}
+	}
+	p {
+		max-height: 100px;
+	}
+	.teasertext {
+		font-family: Georgia;
+		overflow: hidden;
+		color: $text-color;
+		font-size: 16px;
+		line-height: 1.5;
+	}
+	h2 {
+		font-family: Arial, sans-serif;
+		font-size: 21px;
+		font-weight: 700;
+		line-height: 1.25;
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+	// include topstory style for all small screens
+	@media only screen and (max-width: 40em) {
+		@include topstory;
+	}
+}
+
+.collectionPage [item=item] {
+	overflow: auto;
+	float: left;
+	.item {
+		img {
+			width: 100%;
+			height: auto;
+		}
+		h2 {
+			margin-top: 235px;
+			text-overflow: ellipsis;
+			width: 300px;
+			overflow: hidden;
+			white-space: nowrap;
+		}
+		> div {
+			height: 320px;
+		}
+	}
+	/*
+	&:nth-child(2n) .item {
+		padding-left: 5px;
+	}
+	&:nth-child(2n+1) .item {
+		padding-right: 5px;
+	}
+	*/
+}
+
+.topstory {
+	@include topstory;
+}
+
+.item:hover {
+		img {
+			-webkit-filter: brightness(115%);
+			filter: brightness(115%);
+		}
+}
+
+.roll {
+	height: 93px;
+	overflow: hidden;
+	margin-top: 5px;
+	img {
+		height: 100% !important;
+		margin: 0px !important;
+		margin-right: 5px !important;
+		width: auto !important;
+	}
+}
+.topstory .roll {
+	padding: 0 10px;
+	padding-bottom: 10px;
+	height: auto;
+	img {
+		width: calc(100%/6) !important;
+		height: auto !important;
+		margin: 0 !important;
+		border-radius: 0;
+		&:first-child {
+			border-radius: 3px 0 0 3px;
+		}
+		&:last-child {
+			border-radius: 0 3px 3px 0;
+		}
+	}
+}

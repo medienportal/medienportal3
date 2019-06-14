@@ -1,0 +1,135 @@
+<div class="collection">
+	<div class="row gray">
+		<section class="medium-8 columns content">
+			<div
+			ng-if="collection.currentCollection && collection.isEditing()"
+			class="upload">
+				<input type="file" ngf-drop ngf-select ngf-change="collection.addFiles($files)" multiple>
+				<p>Dateien hierher ziehen oder klicken wählen.</p>
+			</div>
+			<div class="to-be-uploaded" style="overflow: auto">
+				<div class="small-12 columns borderleft-3 content" ng-repeat="file in collection.toBeUploaded">
+						<span class="small-8 columns">{{file.name}}</span>
+						<span class="small-4 columns">wird bald hochgeladen</span>
+				</div>
+			</div>
+			<div class="uploading" style="overflow: auto">
+				<div class="small-12 columns content" ng-repeat="file in collection.uploading">
+						<span class="small-8 columns">{{file.name}}</span>
+						<span class="small-4 columns">wird hochgeladen ...</span>
+				</div>
+			</div>
+			<div class="pictures">
+			<h3 class="hide-for-small"><a>aktuell</a>
+			<span class="informatives"> · {{collection.currentCollection.files.length}} Bilder</span></h3>
+			<div class="intro"  ng-hide="page.isEditing()">
+			<h1 ng-bind-html="collection.currentCollection.title"></h1>
+			</div>
+			<div class="small-6 large-4 columns content" ng-repeat="file in collection.currentCollection.orderedFiles() track by $index">
+			<div class="preview">
+			<p class="text" ng-show="file.comments.length > 0">
+				<ng-pluralize count="file.comments.length"
+							  when="{
+								  1: '1 Kommentar',
+								  other: '{} Kommentare'
+							  }">
+				</ng-pluralize>
+			</p>
+			<p class="text removeFile" ng-show="collection.isEditing()" ng-click="file.delete()">Bild löschen.</p>
+			<a ng-href="{{baseUrl}}/#!/collection/{{collection.currentCollection.id}}/file/{{file._id}}">
+			<img bn-lazy-src="{{file.getFile('small')}}" />
+			</a>
+			</div>
+			</div>
+			</div>
+		</section>
+		<aside class="medium-4 content columns">
+			<div class="wrap both">
+				<div sharebox="collection.currentCollection" ng-hide="collection.isEditing()" ng-if="collection.currentCollection" class="likebox"></div>
+				<box-user-list ng-hide="collection.isEditing()" user-objs="collection.currentCollection.author"></box-user-list>
+				<div style="margin-top:10px;margin-bottom:10px;" class="config" ng-show="collection.currentCollection && collection.isEditing()">
+					<h2>Informationen</h2>
+					<h3>Titel</h3>
+					<div class="conig_tab">
+						<p contenteditable="true" ng-model="collection.currentCollection.title" ng-blur="collection.currentCollection.save()"></p>
+					</div>
+					<h3>Thema</h3>
+					<div class="conig_tab">
+						<mac-autocomplete
+							mac-autocomplete-source="collection.cache.available_topics"
+							mac-autocomplete-on-select="collection.setTopic(collection.currentCollection)"
+							mac-autocomplete-delay="200"
+							mac-placeholder="'Autocomplete'"
+							ng-model="collection.currentCollection.topic"
+							ng-blur="collection.setTopic(collection.currentCollection)">
+							<span>{{item.value}}</span>
+						</mac-autocomplete>
+				</div>
+				<h3>Kategorie</h3>
+				<div class="conig_tab">
+					<select
+					ng-model="collection.currentCollection.category_id"
+					ng-options="category_id as category.title for (category_id, category) in collection.cache.categories"
+					ng-change="collection.currentCollection.save()">
+					</select>
+				</div>
+				<h3>Subkategorie</h3>
+				<div class="conig_tab">
+					<select
+						ng-model="collection.currentCollection.subcategory_id"
+						ng-options="nav.id as nav.title for nav in collection.cache.categories[collection.currentCollection.category_id].navigation"
+						ng-change="collection.currentCollection.save()">
+						<!-- page.currentPage.save() -->
+					</select>
+				</div>
+				<h3>Sortierung</h3>
+				<div class="conig_tab">
+					<select
+						ng-model="collection.currentCollection.config.sorting_option"
+						ng-options="option.key as option.label for option in collection.SORTING_OPTIONS"
+						ng-change="collection.currentCollection.save()">
+						<!-- page.currentPage.save() -->
+					</select>
+				</div>
+				<h3>Vorschaubild · 1300 x 975 px</h3>
+				<div class="conig_tab">
+					<div class="vorschaubild inputfile_wrap">
+						<input type="file" ngf-drop ngf-select ngf-change="collection.currentCollection.setPreview($files, 'preview')" />
+						<img
+							ng-src="{{collection.currentCollection.getPreview('small')}}"
+							id="config_preview_picture_dropzone" />
+					</div>
+				</div>
+				<h3>Banner · 2000 x 440 px</h3>
+				<div class="conig_tab">
+					<div class="vorschaubild inputfile_wrap">
+						<input type="file" ngf-drop ngf-select ngf-change="collection.currentCollection.setPreview($files, 'banner')" />
+						<img
+							ng-src="{{collection.currentCollection.getBanner()}}"
+							id="config_banner_picture_dropzone" />
+					</div>
+				</div>
+				<h3>Autoren</h3>
+				<div class="conig_tab">
+					<user-selector
+						user-collection="collection.cache.users"
+						chosen-users="collection.currentCollection.author"
+						on-change-collection="collection.currentCollection.save()">
+					</user-selector>
+				</div>
+				<h3>Datum</h3>
+				<div class="conig_tab">
+					<input
+						type="text"
+						ng-value="collection.moment(collection.currentCollection.created_at).format('L')"
+						ng-blur="collection.editCollectionDate($event)" />
+				</div>
+				<h3>Weitere Aktionen</h3>
+				<div class="conig_tab">
+					<button ng-if="collection.cache.current_user.can('delete', collection.currentCollection.category_id)" class="deleteButton" ng-click="collection.deleteCurrentCollection()">Dieses Album Löschen!</button>
+				</div>
+			</div>
+		</aside>
+</div>
+
+<footer class="row" ng-include="'app/components/footer/footer.html'"></footer>

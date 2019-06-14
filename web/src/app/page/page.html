@@ -1,0 +1,267 @@
+<div>
+	<div class="row gray">
+		<div class="medium-8 small-12 columns content">
+			<div ng-if="!page.isLoading" class="wrap zeroright">
+				<section class="pagebody module-container" ng-class="page.currentPage.page_type">
+					<!-- INFORMATIVES -->
+					<h3>
+						<a ng-if="page.currentPage.topic" ng-href="{{baseUrl}}/#!/search/?f=topic:{{page.currentPage.topic}}">{{page.currentPage.topic}}</a>
+						<span class="informatives"> · {{page.moment(page.currentPage.created_at).format('L')}}
+							<!-- <span class="hide-for-small">· {{page.currentPage.__viewsCount}} Leser</span> -->
+							<span class="hide-for-small" ng-if="page.currentPageComments.length > 0">
+								·
+								<ng-pluralize count="page.currentPageComments.length"
+											  when="{
+												  1: '1 Kommentar',
+												  other: '{} Kommentare'
+											  }">
+								</ng-pluralize>
+							</span>
+							<span class="hide-for-small" ng-if="page.currentPage.likes.length > 0">
+								·
+								<ng-pluralize count="page.currentPage.likes.length"
+											  when="{
+												  1: 'Eine Empfehlung',
+												  other: '{} Empfehlungen'
+											  }">
+								</ng-pluralize>
+							</span>
+						</span>
+					</h3>
+					<!-- BANNER MOBILE -->
+					<img class="show-for-small" ng-src="{{page.currentPage.getBanner(small)}}" title="Banner für {{page.currentPage.title}}" />
+					<!-- EXCERP -->
+					<div class="intro">
+						<h1 ng-bind-html="page.currentPage.title"></h1>
+						<p>
+							{{page.currentPage.config.excerp}}
+						</p>
+					</div>
+					<!-- MODULES -->
+					<div
+						ng-repeat="module_object in page.currentPageModules | orderBy:'position_on_page'"
+						style="position: relative;"
+						class="page_modules"
+						drop-module="module_object"
+						module-position-on-page="{{module_object.position_on_page}}"
+                        ng-if="page.cache.isModuleTypeAvailable(module_object.module.type)"
+						on-drop="page.dropModule($moduleId, $toIndex)">
+							<div
+								class="control row content"
+								drag-module="module_object"
+								module-model="page.moduleModel"
+								draggable="true"
+								ng-if="page.isEditing()">
+									<p>
+										{{module_object.module.type}}
+										<span class="settings">
+										<a><i class="fi-thumbnails"></i> <span>verschieben</span></a> ·
+										<a ng-click="page.deleteModule(module_object)" class="underline">entfernen</a>
+										</span>
+									</p>
+							</div>
+							<article module="module_object.module" page="page.currentPage" class="module"></article>
+
+
+					</div>
+					<!-- SHAREBOX -->
+					<div style="padding:10px;  border-top: 1px solid rgb(239, 239, 239);" ng-hide="page.isEditing()" ng-if="page.currentPage.status == 'PUBLISHED'">
+							<div sharebox="page.currentPage" ng-hide="page.isEditing()" style="margin:0px;background:white;border-color:white;" class="likebox" ng-if="page.currentPage.status == 'PUBLISHED'"></div>
+					</div>
+					<!-- KOMMENTARE -->
+					<section ng-hide="page.isEditing()" ng-if="page.currentPage.status == 'PUBLISHED'" id="comments">
+							<h3 style="color:white;">Kommentieren
+								<span class="informatives">
+									·
+									<ng-pluralize count="page.currentPageComments.length"
+												  when="{
+													  1: '1 Kommentar',
+													  other: '{} Kommentare'
+												  }">
+									</ng-pluralize>
+								</span>
+							</h3>
+							<form ng-submit="page.addComment()" class="input" style="border-bottom:1px dotted lightgray;" charset="utf-8">
+								<input
+									type="text"
+									name="author"
+									ng-if="!page.cache.current_user.isLoggedIn()"
+									ng-model="page.newComment.author.author_id"
+									placeholder="Name"
+									class="author" />
+								<div class="author" ng-if="page.cache.current_user.isLoggedIn()">
+									<img ng-src="{{page.cache.current_user.getImage()}}" class="profilbild" />
+									{{page.cache.current_user.name}}
+								</div>
+								<textarea
+									name="comment"
+									placeholder="Kommentar"
+									ng-model="page.newComment.content"
+									class="comment"
+									required
+									panda-replace-emojis></textarea>
+								<input name="submit" type="submit" value="Kommentar speichern" class="submit" />
+							</form>
+							<article class="comment" style="border-bottom:1px dotted lightgray;" ng-repeat="comment in page.currentPageComments | orderBy:'created_at':true track by $index">
+								<div ng-if="comment.author.author_type == 'panda'">
+									<img ng-src="{{comment.getUser().getImage()}}" class="profilbild">
+									<span class="namec">
+										{{comment.getUser().name}}
+									</span>
+									<span class="commenttime">· {{page.moment(comment.created_at).fromNow()}}</span>
+									<span class="flag"  ng-if="!comment.reported" ng-click="comment.report()"> ·
+										<i class="fi-flag"></i><span class="underline">melden</span>
+									</span>
+									<span class="flag"> ·
+										<span class="underline" ng-click="page.deletePageComment(comment)" ng-if="page.cache.current_user.can('*', '*')">
+											löschen
+										</span>
+									</span><br />
+									{{comment.content}}
+								</div>
+
+								<div ng-if="comment.author.author_type != 'panda'">
+									<span class="namec">{{comment.author.author_id}}</span>
+									<span class="commenttime">· {{page.moment(comment.created_at).fromNow()}}</span>
+									<span class="flag" ng-click="comment.report()" ng-if="!comment.reported"> ·
+										<i class="fi-flag"></i><span class="underline">melden</span>
+									</span>
+									<span class="flag"> ·
+										<span class="underline" ng-click="comment.delete()" ng-if="page.cache.current_user.can('*', '*')">
+											löschen
+										</span>
+									</span><br />
+									{{comment.content}}
+								</div>
+							</article>
+					</section>
+				</section>
+
+				<!-- ADDING MODULES -->
+				<section ng-show="page.isEditing()" class="config">
+					<h2>Modul hinzufügen</h2>
+					<div class="conig_tab addmodules" style="text-align:center;">
+						<div class="site_content" ng-repeat="moduleType in page.cache.moduleTypes" ng-click="page.addModule(moduleType)">
+							<h3>{{moduleType.name}}</h3>
+							<img ng-src="{{moduleType._image}}" alt="{{moduleType.name}}" />
+							<p>{{moduleType._description}}</p>
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+		<aside class="medium-4 content columns hide-for-small">
+			<div class="wrap both bottom">
+				<div ng-hide="page.isEditing()">
+					<div sharebox="page.currentPage" class="likebox" ng-if="page.currentPage.status == 'PUBLISHED'"></div>
+					<box-user-list user-objs="page.currentPage.author"></box-user-list>
+					<article class="item topstory" ng-click="open('/page/' + page.getRandomPage().id)">
+						<div style="margin-top:0px; border: 1px solid #efefef; border-radius: 2px;">
+							<img ng-src="{{page.getRandomPage().getPreview('small')}}"/>
+							<h2>{{page.getRandomPage().title}}</h2>
+							<p class="excerp teasertext" ng-bind-html="page.getRandomPage().config.excerp" style="margin-top:5px;"></p>
+						</div>
+					</article>
+					<div class="box extra facts" style="margin-bottom:0px; min-height:70px;" ng-if="page.currentPage.tags.length > 0">
+						<h3><i class="fi-magnifying-glass"></i> Schlagworte</h3>
+						<p class="tags">
+							<a class="label" href="{{baseUrl}}/#!/search/?f=tags:{{tag}}" ng-repeat="tag in page.currentPage.tags track by $index">{{tag}} </a>
+						</p>
+					</div>
+				</div>
+				<div ng-show="page.isEditing()" class="config">
+				<h2>Informationen</h2>
+				<h3>Titel</h3>
+				<div class="conig_tab">
+					<p contenteditable="true" ng-model="page.currentPage.title" ng-blur="page.currentPage.save()"></p>
+				</div>
+				<h3>Beschreibung</h3>
+				<div class="conig_tab">
+					<p class="intro">
+					<span contenteditable="true" ng-model="page.currentPage.config.excerp" ng-blur="page.currentPage.save()"></span>
+					</p>
+				</div>
+				<h3>Thema</h3>
+				<div class="conig_tab">
+					<mac-autocomplete
+						mac-autocomplete-source="page.cache.available_topics"
+						mac-autocomplete-on-select="page.setTopic(page.currentPage)"
+						mac-autocomplete-delay="200"
+						mac-placeholder="'Autocomplete'"
+						ng-model="page.currentPage.topic"
+						ng-blur="page.setTopic(page.currentPage)">
+							<span>{{item.value}}</span>
+					</mac-autocomplete>
+				</div>
+				<h3>Kategorie</h3>
+				<div class="conig_tab">
+					<select
+						ng-model="page.currentPage.category_id"
+						ng-options="category_id as category.title for (category_id, category) in page.cache.categories"
+						ng-change="page.currentPage.save()">
+					</select>
+					<select
+						ng-model="page.currentPage.subcategory_id"
+						ng-options="nav.id as nav.title for nav in page.cache.categories[page.currentPage.category_id].navigation"
+						ng-change="page.currentPage.save()">
+						<!-- page.currentPage.save() -->
+					</select>
+				</div>
+				<h3>Schlagworte</h3>
+				<div class="conig_tab">
+					<tags-input
+						ng-model="currentTags"
+						custom-class="pagetags"
+						placeholder="Füge ein Schlagwort hinzu"
+						enable-editing-last-tag="true"
+						on-tag-added="page.addTag($tag.text)"
+						on-tag-removed="page.currentPage.save()">
+							<auto-complete source="page.findTags($query)"
+								min-length="0"
+								max-results-to-show="8">
+							</auto-complete>
+					</tags-input>
+				</div>
+				<h3>Vorschaubild · 1300 x 975 px</h3>
+				<div class="conig_tab">
+					<div class="vorschaubild inputfile_wrap">
+						<input type="file" ngf-drop ngf-select ngf-change="page.currentPage.setPreview($files, 'preview')" />
+						<img
+							ng-src="{{page.currentPage.getPreview('small')}}"
+							id="config_preview_picture_dropzone" />
+					</div>
+				</div>
+				<h3>Banner · 2000 x 440 px</h3>
+				<div class="conig_tab">
+					<div class="vorschaubild inputfile_wrap">
+						<input type="file" ngf-drop ngf-select ngf-change="page.currentPage.setPreview($files, 'banner')" />
+						<img
+							ng-src="{{page.currentPage.getBanner()}}"
+							id="config_banner_picture_dropzone" />
+					</div>
+				</div>
+				<h3>Autoren</h3>
+				<div class="conig_tab">
+					<user-selector
+						user-collection="page.cache.users"
+						chosen-users="page.currentPage.author"
+						on-change-collection="page.currentPage.save()">
+					</user-selector>
+				</div>
+				<h3>Datum</h3>
+				<div class="conig_tab">
+					<input
+						type="text"
+						ng-value="page.moment(page.currentPage.created_at).format('L')"
+						ng-blur="page.editPageDate($event)" />
+				</div>
+				<h3>Weitere Aktionen</h3>
+				<div class="conig_tab">
+					<button ng-if="page.cache.current_user.can('delete', page.currentPage.category_id)" class="deleteButton" ng-click="page.deleteCurrentPage()">Diese Seite Löschen!</button>
+				</div>
+			</div>
+			</div>
+		</aside>
+	</div>
+	<footer class="row" ng-include="'app/components/footer/footer.html'"></footer>
+</div>

@@ -1,0 +1,17 @@
+<div class="box feedback">
+	<h1>Wie findest du das Medienportal?</h1>
+	<span class="error" ng-if="feedback.error">{{feedback.error}}</span>
+	<span class="is-loading" ng-if="feedback.loading">Nacricht wird versendet ...</span>
+	<form class="input" ng-submit="feedback.send()" ng-if="!feedback.loading">
+		<textarea name="feedback" required class="comment" ng-model="feedback.message.content"></textarea>
+		<div class="wrapper">
+			<label>
+				Bild anhängen:
+				<input type="file" ngf-drop ngf-select ngf-change="feedback.setFile($files)" />
+			</label>
+			<img ng-src="{{feedback.message.file}}" ng-show="feedback.message.file"/>
+		</div>
+		<input name="submit id="submit" type="submit" value="senden" class="submit">
+	</form>
+	<div style="clear:both;"></>
+</div>

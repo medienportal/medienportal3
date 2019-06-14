@@ -1,0 +1,6 @@
+<div class="module_image inputfile_wrap">
+	<input type="file" ngf-drop ngf-select ngf-change="setFile($files)" ng-if="isEditing()" />
+	<img ng-src="{{module.files[0] || '/assets/images/icons/image.png'}}" style="width: 100%" ng-if="!module.files[0].file_id"/>
+	<img ng-src="{{module.files[0].versions['standard'].absoluteUrl || '/assets/images/icons/image.png'}}" style="width: 100%" ng-if="module.files[0].file_id" />
+</div>
+<p contenteditable="{{isEditing()}}" ng-model="module.content" class="module_additionalinfo" ng-blur="module.save(page)" ng-change="realtime()"></p>

@@ -1,0 +1,59 @@
+version: '2'
+services:
+  web:
+    container_name: medienportal-web
+    image: medienportal/web
+    hostname: dev.frontend.medienportal
+    depends_on:
+      - api
+    volumes:
+      - .:/app
+    ports:
+      - 3000:3000
+    command: bash -c "npm install && bower install --allow-root && gulp serve"
+  api:
+    container_name: medienportal-api
+    image: medienportal/api
+    ports:
+      - 9000:9000
+    hostname: dev.api.medienportal
+    volumes:
+      - ../api:/app
+    depends_on:
+      - mongo
+      - redis
+      - elasticsearch
+    command: bash -c "npm install && nodemon app.js"
+  admin:
+    container_name: medienportal-admin
+    image: medienportal/admin
+    ports:
+      - 3100:3000
+    hostname: dev.admin.medienportal
+    volumes:
+      - ../administration:/usr/src/app
+    command: bash -c "bundle install --no-deployment --path vendor/bundle && bundle exec rails server -b 0.0.0.0"
+  mongo:
+    container_name: medienportal-api-mongodb
+    image: mongo
+    hostname: dev.mongo.services.medienportal
+    ports:
+      - 27017:27017
+    expose:
+      - 27017
+  redis:
+    container_name: medienportal-api-redisdb
+    image: redis:alpine
+    hostname: dev.redis.services.medienportal
+    ports:
+      - 6379:6379
+    expose:
+      - 6379
+  elasticsearch:
+    container_name: medienportal-api-elasticsearch
+    image: elasticsearch
+    hostname: dev.search.services.medienportal
+    ports:
+      - 9200:9200
+    expose:
+      - 9200

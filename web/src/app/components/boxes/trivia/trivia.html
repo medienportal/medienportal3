@@ -1,0 +1,16 @@
+<div class="box hints">
+	<div ng-if="!error">
+		<h3>Wusstest du schon ...</h3>
+		<p ng-show="activeTrivia()">{{activeTrivia().content}}</p>
+		<!--
+<div class="events">
+			<h3 style="border-top:1px solid #46aeca;">Nächste Termine</h3>
+			<p><span>03.02.</span> Anmeldeschluss Kleinkunst</p>
+			<p><span>05.02.</span> Vorausscheid Kleinkunst</p>
+			<p><span>09.02. bis 23.02.</span> Winterferien </p>
+		</div>
+-->
+	<div ng-if="error">
+		Es ist ein Fehler aufgetreten. Bitte versuche es später erneut.
+	</div>
+</div>

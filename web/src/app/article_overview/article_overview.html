@@ -1,0 +1,77 @@
+<div class="row content article_overview nolayout" style="margin-bottom:15px;">
+	<nav>
+		<ul>
+			<!-- <li>Profil</li>
+			<li>Meine Artikel</li> -->
+			<li>Freigabe ({{overviews.manager.onlineCounter()}})</li>
+		</ul>
+	</nav>
+	<div class="small-11 medium-10 large-8 small-centered columns content">
+		<div class="wrap">
+			<section style="overflow: auto">
+
+				<div class="row status">
+					<div class="medium-5 columns content">
+						<h3>angefangene artikel</h3>
+					</div>
+					<div class="medium-7 columns content">
+						<ul class="breacrumb">
+							<li>Freigeben</li>
+							<li>Kontrolliert</li>
+							<li>Sichtbar</li>
+						</ul>
+					</div>
+				</div>
+				<div
+					item="item"
+					topstory="false"
+					ng-repeat="item in overviews.manager.editableItemsWithoutStatus()">
+				</div>
+			</section>
+
+			<section style="overflow: auto" ng-class="{ advanced: !overviews.user.isAdmin() }">
+
+				<div class="row status">
+					<div class="medium-5 columns content">
+						<h3>({{overviews.manager.onlineCounter()}}) zu Korrigieren</h3>
+					</div>
+					<div class="medium-7 columns content">
+						<ul class="breacrumb">
+							<li class="checked"><i class="fi-check"></i></li>
+							<li>Kontrolliert</li>
+							<li>Sichtbar</li>
+						</ul>
+					</div>
+				</div>
+				<article
+					item="item"
+					topstory="false"
+					ng-repeat="item in overviews.manager.editableItemsWithStatus('READY')">
+				</article>
+			</section>
+
+			<section style="overflow: auto" ng-class="{ advanced: !overviews.user.isAdmin() }">
+
+				<div class="row status">
+					<div class="medium-5 columns content">
+						<h3>Warteschlange</h3>
+					</div>
+					<div class="medium-7 columns content">
+						<ul class="breacrumb">
+							<li class="checked"><i class="fi-check"></i></li>
+							<li class="checked"><i class="fi-check"></i></li>
+							<li>Sichtbar</li>
+						</ul>
+					</div>
+				</div>
+				<article
+					item="item"
+					topstory="false"
+					ng-repeat="item in overviews.manager.editableItemsWithStatus('CONTROLLED')">
+				</article>
+			</section>
+		</div>
+
+	</div>
+
+</div>

@@ -1,0 +1,20 @@
+<div class="searchresults" ng-class="{active: (active() && sm.active)}">
+	<div class="resultslist">
+		<article ng-click="open(hit.type + '/' + hit.id)" class="item" ng-repeat="hit in sm.results.slice(0, 4)">
+			<div style="border-bottom:1px solid whitesmoke;padding:15px;">
+				<img style="width: 130px;height: 90px;" ng-src="{{hit.source.thumbnails['smalldouble'] || hit.source.thumbnails['small']}}" />
+				<h2 style="font-size:16px;">{{hit.source.title}}</h2>
+				<p class="commenttime" style="margin-bottom: 5px;">
+					{{moment(hit.source.created_at).format('LL')}}
+				</p>
+				<p style="width:400px;" class="excerp teasertext">{{hit.source.excerp}}</p>
+			</div>
+		</article>
+	</div>
+	<div class="results_button" title="Zu den Suchergebnissen" ng-if="sm.results.length > 4" ng-click="open('search/' + sm._searchtext)">
+		{{sm.results.length - 4}} weitere Ergebnisse für {{sm._searchtext}} anzeigen
+	</div>
+	<div  style="background: #666666;color: whitesmoke;" class="results_button" ng-if="sm.results.length < 1">
+		Es konnten leider keine Suchergebnisse für <em>{{sm._searchtext}}</em> gefunden werden.
+	</div>
+</div>

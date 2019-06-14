@@ -1,0 +1,33 @@
+<div class="row content administration_overview nolayout">
+	<div ng-include="'app/administration/navigation.html'"></div>
+
+	<div ng-include="'app/administration/statistics.html'"></div>
+
+	<div class="wrap">
+		<section>
+			<ul class="menu">
+				<li class="users">
+					<a ng-href="{{baseUrl}}/administration/users">
+						<span class="description">Rechteverwaltung</span>
+					</a>
+				</li>
+				<li class="categories">
+					<a ng-href="{{baseUrl}}/administration/categories">
+						<span class="description">Kategorien</span>
+					</a>
+				</li>
+				<li class="trivia">
+					<a ng-href="{{baseUrl}}/administration/trivia">
+						<span class="description">Homepageboxen</span>
+					</a>
+				</li>
+				<li class="themes">
+					<a ng-href="{{baseUrl}}/administration/themes">
+						<span class="description">Themes</span>
+					</a>
+				</li>
+			</ul>
+		</section>
+	</div>
+
+</div>

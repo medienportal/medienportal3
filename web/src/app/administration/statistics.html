@@ -1,0 +1,48 @@
+<div class="statistic">
+	<span ng-show="usage.loading">Statistiken werden geladen ....</span>
+	<div ng-show="usage.error">
+		<em>Fehler beim Laden der Statistiken.</em>
+		<p>{{usage.error}}</p>
+		<p>
+			<a href="#" ng-click="usage.init()">Nochmal versuchen</a>
+		</p>
+	</div>
+	<article ng-show="!usage.loading && !usage.error">
+		<section>
+			<h2 class="title">Speicherplatz</h2>
+			<div class="description">
+				Fotos, Videos und Audiodateien  •
+				Gesamt: {{usage.data.usage.filesize / 1024 / 1024 / 1024 | number:3}} GB •
+				Verfügbar: {{usage.data.currentPlan.max_space_available / 1024 / 1024 | number:0}} GB
+			</div>
+			<div class="loadingwrapper">
+				<div class="percent">
+					<div>{{usage.data.usage.filesize / 1024 / usage.data.currentPlan.max_space_available * 100 | number:0}}% verbraucht</div>
+				</div>
+				<div class="bar">
+					<div class="barwrapper">
+						<div class="barpercent" style="width:{{usage.data.usage.filesize / 1024 / usage.data.currentPlan.max_space_available * 100}}%;"></div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section style="padding-top:30px;">
+			<h2 class="title">Medienumwandlung</h2>
+			<div class="description">
+				Videos und Audiodateien •
+				Gesamt: {{usage.getSecondsForCurrentMonth() / 60 | number:0}} Minuten •
+				Verfügbar: {{usage.data.currentPlan.max_media_conversion / 60 | number:0}}
+			</div>
+			<div class="loadingwrapper">
+				<div class="percent">
+					<div>{{usage.getSecondsForCurrentMonth() / usage.data.currentPlan.max_media_conversion * 100 | number}}% verbraucht</div>
+				</div>
+				<div class="bar">
+					<div class="barwrapper">
+						<div class="barpercent" style="width:{{usage.getSecondsForCurrentMonth() / usage.data.currentPlan.max_media_conversion * 100}}%;"></div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</article>
+</div>

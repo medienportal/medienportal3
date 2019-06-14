@@ -1,0 +1,6 @@
+img[bn-lazy-src] {
+	transition: opacity 0.3s ease-in 0.1s;
+	&[src].loaded {
+		opacity: 1;
+	}
+}

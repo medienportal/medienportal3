@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<Query>
+	<Action>AddMediaLite</Action>
+	<UserID>9099</UserID>
+	<UserKey>1b118ad11d15332d24fb29e6a3c7b70d</UserKey>
+	<Notify>http://api.medienportal.org/vidly/callback</Notify>
+	<Source>
+		<SourceFile>{{source_file_url}}</SourceFile>
+		<CDN>AWS</CDN>
+		<HD>HD</HD>
+	</Source>
+</Query>

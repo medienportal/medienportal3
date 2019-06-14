@@ -1,0 +1,38 @@
+<aside class="medium-4 content columns">
+	<div class="wrap both">
+		<div class="box sub_navigation">
+			<div class="reorder-categories-box">
+				<input type="button"
+				       value="neu ordnen"
+				       ng-click="categoriesSettingsNav.enableReorderCategories(categoriesSettingsNav)"
+				       ng-hide="categoriesSettingsNav.isReorderModeOn" />
+				<input type="button"
+				       value="speichern"
+				       ng-click="categoriesSettingsNav.saveReorderedCategories(categoriesSettingsNav)"
+				       ng-show="categoriesSettingsNav.isReorderModeOn" />
+				<input type="button"
+				       value="abbrechen"
+				       ng-click="categoriesSettingsNav.endReorderedCategories(categoriesSettingsNav)"
+				       ng-show="categoriesSettingsNav.isReorderModeOn" />
+			</div>
+			<ul>
+				<li ng-class="{active: !categoriesSettingsNav.selectedCategory()}"
+				    ng-click="categoriesSettingsNav.selectHomepage()"
+				    ng-hide="categoriesSettingsNav.isReorderModeOn">Startseite</li>
+				<li ng-repeat="(categoryId, category) in categoriesSettingsNav.categories() | orderObjectsBy:'position'"
+				    ng-click="open('/administration/categories/' + category.id)"
+				    ng-class="{active: categoriesSettingsNav.selectedCategory().id == category.id}"
+				    draggable="{{categoriesSettingsNav.isReorderModeOn}}"
+				    id="category_{{category.id}}">
+					{{category.title}}
+					<i class="fi-list right" ng-if="categoriesSettingsNav.isReorderModeOn"></i>
+				</li>
+				<li class="addnew"
+				    ng-click="categoriesSettingsNav.createCategory()"
+				    ng-hide="categoriesSettingsNav.isReorderModeOn">
+					<i class="fi-plus"></i>neue Kategorie hinzufügen
+				</li>
+			</ul>
+		</div>
+	</div>
+</aside>

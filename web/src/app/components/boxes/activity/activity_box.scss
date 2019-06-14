@@ -1,0 +1,13 @@
+.box.activity {
+		.fadeout {
+			display: block;
+			position: absolute;
+			pointer-events: none;
+			bottom: 0px;
+			left: 0px;
+			right: 0px;
+			height: 50px;
+			background: linear-gradient(to bottom, rgba(255,255,255,0),#fff)
+		}
+
+}

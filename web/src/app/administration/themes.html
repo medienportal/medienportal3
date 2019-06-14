@@ -1,0 +1,25 @@
+<div class="row content settings users_overview nolayout">
+	<div ng-include="'app/administration/navigation.html'"></div>
+	<div class="small-11 medium-10 large-8 small-centered columns content">
+
+		<div class="wrap">
+			<section>
+				<form ng-submit="settings.ThemeManager.saveCurrentTheme()">
+					<div class="config">
+						<h3>Theme setzen</h3>
+						<div class="conig_tab theme" style="text-align:center;">
+							<label class="site_content"
+								ng-class="{active: settings.ThemeManager.currentTheme == theme}"
+								ng-repeat="theme in settings.ThemeManager.getAvailableThemes()"
+								ng-click="settings.selectTheme(theme)">
+								<h3>{{theme.title}}</h3>
+								<img ng-src="{{theme.image}}" alt="Vorschau {{theme.title}}" />
+							</label>
+						</div>
+					</div>
+					<input type="submit" value="speichern" />
+				</form>
+			</section>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,27 @@
+<div class="row content nolayout passwordrecovery" style="margin-bottom:15px;">
+	<div class="back">
+		<button ng-click="open('/')">zurück zur Startseite</button>
+	</div>
+	<div class="small-11 medium-10 large-8 small-centered columns content">
+		<div class="wrap">
+			<section>
+				<div class="row">
+					<div class="error" ng-repeat="error in pwRecovery.$errors">{{error}}</div>
+					<form ng-submit="pwRecovery.submitRequest(recovery)">
+						<fieldset class="row">
+							<label for="recovery.newpassword" class="large-5 columns">Neues Passwort:</label>
+							<input type="password" id="recovery.newpassword" ng-model="recovery.newpassword" class="large-7 columns" />
+						</fieldset>
+						<fieldset class="row">
+							<label for="recovery.newpassword_repeat" class="large-5 columns">Neues Passwort wiederholen:</label>
+							<input type="password" id="recovery.newpassword_repeat" ng-model="recovery.newpassword_repeat" class="large-7 columns" />
+						</fieldset>
+						<fieldset class="row">
+							<input type="submit" value='Passwort ändern' class="large-12 columns centered" />
+						</fieldset>
+					</form>
+				</div>
+			</section>
+		</div>
+	</div>
+</div>

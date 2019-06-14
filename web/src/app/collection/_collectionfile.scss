@@ -1,0 +1,49 @@
+.collectionfile {
+	height: 100vh;
+	top: 0;
+	margin-top: 0;
+	padding-top: $header_height;
+	align-content: stretch;
+
+	.large-9 {
+		height: 100%;
+		display: -webkit-box;
+	    -webkit-box-align: center;
+	    display: -moz-box;
+	    -moz-box-align: center;
+	    display: -ms-flexbox;
+	    -ms-flex-align: center;
+	    display: box;
+	    box-align: center;
+		img {
+			margin: auto;
+			display: -webkit-flexbox;
+			display: -ms-flexbox;
+			display: -webkit-flex;
+			display: flex;
+			-webkit-flex-align: center;
+			-ms-flex-align: center;
+			-webkit-align-items: center;
+			align-items: center;
+			text-align: center;
+			border-radius: 2px;
+			border: 4px solid #f6f6f6;
+			max-height: 95%;
+			max-width: 95%;
+			@media only screen and (max-width: 40em) {max-width: 100%;border:none;border-radius:0;}
+			//box-shadow: 0px 0px 15px rgba(0,0,0,0.25);
+		}
+	}
+	.large-3 {
+		height: 100%;
+		overflow: scroll;
+		nav {
+			display: none;
+			visibility: hidden;
+		}
+		.box {
+			margin: 15px 13px 0px 14px;
+		}
+	}
+
+}

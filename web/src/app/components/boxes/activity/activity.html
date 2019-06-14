@@ -1,0 +1,24 @@
+<div class="box activity">
+	<h3>Neuste Aktivitäten</h3>
+	<div class="recent_activity">
+		<article ng-repeat="activity in activities_array() | orderBy:'created_at':true | limitTo:10" ng-class="classes(activity)">
+			<a ng-href="{{url(activity)}}">
+				<p ng-if="activity.type == 'greeting'">
+					<img class="profilbild" ng-src="{{profile_pic(activity)}}" ng-if="profile_pic(activity)" />
+					<span class="namec">{{user_name(activity)}}</span> sagt:
+					{{activity.content}}
+				</p>
+				<p ng-if="activity.type == 'comment'">
+					<img class="profilbild" ng-src="{{profile_pic(activity)}}" ng-if="profile_pic(activity)" />
+					<span class="namec">{{user_name(activity)}}</span> hat {{page_title(activity)}} kommentiert:
+					{{activity.content}}
+				</p>
+				<p ng-if="activity.type == 'like'">
+					<img class="profilbild" ng-src="{{profile_pic(activity)}}" ng-if="profile_pic(activity)" />
+					<span class="namec">{{user_name(activity)}}</span> gefällt {{page_title(activity)}}
+				</p>
+			</a>
+		</article>
+	</div>
+	<span class="fadeout"><span>
+</div>

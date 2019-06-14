@@ -1,0 +1,115 @@
+.userbar {
+	&.ng-hide-add, &.ng-hide-remove {
+		transition: all linear 0.75s;
+	}
+
+	&.ng-hide {
+		height: 0px;
+	}
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	z-index: 1000;
+	width: 100%;
+	height: 40px;
+	margin: 0;
+	background-color: white;
+	border-top: 1px solid #e5e5e5;
+	.userbar_inner {
+		max-width: $header_wrapper;
+		padding: 0 15px;
+		margin: 0 auto;
+	}
+}
+
+@mixin checkstate() {
+	background: $button_active;
+	border-color: $button_active;
+	margin-left: 25px;
+	color: white;
+	margin-right: 10px;
+	.check {
+		display: inline-block;
+	}
+}
+
+.breacrumb {
+  list-style: none;
+  color: gray;
+  display: inline-block;
+  height: 30px;
+  border-radius: 2px;
+  margin: 5px;
+  float: right; // float none for the moment, because of bug
+  > li {
+    display: inline-block;
+    padding: 0 30px;
+    height: 100%;
+    font-size: 12px;
+    padding: 5px 14px;
+    line-height: 20px;
+    background: lightgray;
+    position: relative;
+    border: 0 lightgray;
+    transition: background .25s, border-color .25s, margin .125s;
+    .check {
+	    padding-left: 5px;
+	    display: none;
+    }
+    + li {
+      margin-left: 16px;
+    }
+
+    &.is_allowed {
+    	border: #a9d8b2;
+    	background-color: #a9d8b2;
+    	color: $button_active;
+    	&:hover {
+	    	@include checkstate();
+	  	    cursor: pointer;
+	  	}
+    }
+    &.checked {
+	    @include checkstate();
+	    margin: 0;
+    }
+
+    &:before,
+    &:after {
+      content: '';
+      position: absolute;
+      border: 15px solid transparent;
+      border-right: 0;
+      top: 0;
+    }
+
+    &:before {
+      right: 100%;
+      border-top-color: inherit;
+      border-bottom-color: inherit;
+    }
+
+    &:after {
+      left: 100%;
+      border-left-color: inherit;
+    }
+
+    &:first-child {
+      border-radius: 2px 0 0 2px;
+      margin-left: 0;
+
+      &:before {
+        content: none;
+      }
+    }
+
+    &:last-child {
+      border-radius: 0 2px 2px 0;
+      margin-right: 0;
+
+      &:after {
+        content: none;
+      }
+    }
+  }
+}

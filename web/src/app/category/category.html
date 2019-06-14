@@ -1,0 +1,119 @@
+<div class="category">
+
+<div ng-if="category.currentCategory.config.pageType != 'greetingsPage'">
+	<div class="row">
+		<section class="medium-8 columns content module-container" ng-class="category.currentCategory.config.pageType">
+			<!-- MODULES -->
+			<div
+				ng-repeat="module_object in category.currentCategoryModules | orderBy:'position_on_page'"
+				style="position: relative;"
+				class="page_modules"
+				drop-module="module_object"
+				module-position-on-page="{{module_object.position_on_page}}"
+				ng-if="category.cache.isModuleTypeAvailable(module_object.module.type)"
+				on-drop="category.dropModule($moduleId, $toIndex)">
+					<div
+						class="control row content"
+						drag-module="module_object"
+						module-model="category.moduleModel"
+						draggable="true"
+						ng-if="category.isEditing()">
+							<p>
+								{{module_object.module.type}}
+								<span class="settings">
+								<a><i class="fi-thumbnails"></i> <span>verschieben</span></a> ·
+								<a ng-click="category.deleteModule(module_object)" class="underline">entfernen</a>
+								</span>
+							</p>
+					</div>
+					<article module="module_object.module" page="category.currentCategory" class="module"></article>
+			</div>
+			<!-- ARTICLES AND GALLERIES -->
+			<div class="wrap wrappercategory" ng-hide="category.isEditing()">
+				<div
+					class="subcategory"
+					ng-if="category.onePager"
+					ng-repeat="subcategory in currentCategory.navigation | orderBy:'position'"
+					id="{{subcategory.title}}">
+						<h3 class="subtitle">{{subcategory.title}}</h3>
+						<div
+							item="item"
+							topstory="false"
+							ng-repeat="item in category.pages_or_collections(subcategory.id) | orderBy:'created_at':true"
+							ng-class="{'small-6': item.modelName == 'Collection'}"
+							force-preview-size="['smalldouble', 'small@2x']"
+							enforce-page-layout="{{item.modelName == 'Collection'}}">
+						</div>
+				</div>
+				<div ng-if="!category.onePager">
+					<div
+						item="item"
+						topstory="false"
+						ng-repeat="item in category.pages_or_collections() | orderBy:'created_at':true"
+						ng-class="{'small-6': item.modelName == 'Collection'}">
+					</div>
+				</div>
+			</div>
+
+			<!-- ADDING MODULES -->
+			<section ng-show="category.isEditing()" class="config">
+				<h2>Modul hinzufügen</h2>
+				<div class="conig_tab addmodules" style="text-align:center;">
+					<div class="site_content" ng-repeat="moduleType in category.cache.moduleTypes" ng-click="category.addModule(moduleType)">
+						<h3>{{moduleType.name}}</h3>
+						<img ng-src="{{moduleType._image}}" alt="{{moduleType.name}}" />
+						<p>{{moduleType._description}}</p>
+					</div>
+				</div>
+			</section>
+		</section>
+		<aside class="medium-4 content columns">
+		<div class="wrap both">
+			<div class="box sub_navigation" ng-if="currentCategory.navigation.length">
+				<ul ng-if="category.onePager">
+					<li ng-repeat="subcategory in currentCategory.navigation | orderBy:'position'"
+						ng-click="category.scrollToSubcategory(subcategory.id)">
+							{{subcategory.title}}
+							<span>· {{category.pages_or_collections(subcategory.id).length}} Elemente</span>
+					</li>
+				</ul>
+				<ul ng-if="!category.onePager">
+					<li ng-repeat="subcategory in currentCategory.navigation | orderBy:'position'"
+						ng-click="open('/category/' + currentCategory.id + '/' + subcategory.id)">
+							{{subcategory.title}}
+							<span>· {{category.pages_or_collections(subcategory.id).length}} Elemente</span>
+					</li>
+				</ul>
+	        </div>
+
+			<div class="box hide-for-small">
+				<h3>Neuste Kommentare</h3>
+
+				<article class="comment" ng-repeat="comment in category.latestComments() | orderBy:'created_at':true | limitTo:7">
+					<p ng-click="open(comment.path())">
+						<img class="profilbild" ng-src="{{comment.getUser().getImage()}}" ng-if="comment.getUser().getImage()" />
+						<span class="namec">{{comment.getUser().name}}</span>
+						{{comment.content}}
+					</p>
+				</article>
+			</div>
+
+			<section ezfb-xfbml ng-if="category.currentCategory.config.show_facebook_box && category.currentCategory.config.facebook_box_url" class="hide-for-small">
+				<iframe
+					ng-src="{{'https://www.facebook.com/plugins/likebox.php?href=http://www.facebook.com/' + category.currentCategory.config.facebook_box_url + '&amp;width&amp;height=290&amp;colorscheme=light&amp;show_faces=true&amp;header=false&amp;stream=false&amp;show_border=false&amp;appId=445242912265703'}}"
+					scrolling="no"
+					frameborder="0"
+					style="border:none; overflow:hidden; height:290px;"
+					seamless
+					allowTransparency="true">
+				</iframe>
+			</section></div>
+		</aside>
+	</div>
+</div>
+
+<div ng-if="category.currentCategory.config.pageType == 'greetingsPage'">
+	<ng-include src="'app/greeting/greeting.html'" ng-controller="GreetingsCtrl as greetings"></ng-include>
+</div>
+
+<footer class="row" ng-include="'app/components/footer/footer.html'"></footer>

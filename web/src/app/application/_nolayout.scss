@@ -1,0 +1,50 @@
+.nolayout ng-view {
+	nav {
+		margin-bottom: 30px;
+		ul {
+			box-shadow: inset 0 -3px #d1d3d2;
+			padding: 0 15px;
+			list-style: none;
+			position: relative;
+			display: flex;
+			background: #F5F5F5;
+			li {
+				box-shadow: inset 0 -3px #d1d3d2;
+				padding: 12px 10px;
+				font-weight: 700;
+				color: #666;
+				font-size: 12px;
+				text-transform: uppercase;
+				-webkit-transition: color 0.3s, box-shadow 0.3s;
+				transition: color 0.3s, box-shadow 0.3s;
+				&.active,&:hover {
+					box-shadow: inset 0 -3px $loading;
+					color: $loading;
+				}
+			}
+		}
+	}
+	.advanced {
+		opacity: 0.5;
+	}
+	.status {
+		margin-bottom: 20px !important;
+		h3 {
+			line-height: 40px;
+			padding: 0px 0px 0px 5px;
+		}
+	}
+	.breacrumb {
+		.checked {
+			margin-left: 15px;
+			margin-right: 10px;
+			&:last-child {
+				margin-right: 0;
+			}
+		}
+	}
+	.createpage {
+		margin: 15px;
+		margin-bottom: 0;
+	}
+}

@@ -1,0 +1,81 @@
+<div class="row gray content">
+	<section class="medium-8 columns content" style="margin-bottom:10px !important; min-height:1500px;">
+		<div class="show-for-small" style="padding: 10px;background-color: white;border-bottom: 1px solid #EFEFEF;">
+			<v-plan
+				ng-if="homepage.cache.account.getConfig('MP3VplanEnabled') && homepage.cache.current_user.isLoggedIn()"
+				user="homepage.cache.current_user">
+			</v-plan>
+			<events-box
+				events-uri="homepage.cache.account.getConfig('MP3CalendarUri')"
+				events-limit="homepage.cache.account.getConfig('MP3CalendarLimitEvents')"
+				ng-if="homepage.cache.account.getConfig('MP3CalendarUri')">
+			</events-box>
+		</div>
+		<div class="itemwrap" style="margin:10px 0px 0px 10px;">
+			<div
+				item="homepage.topstory()"
+				topstory="true">
+			</div>
+			<span ng-repeat-start="page in homepage.pagesAndCollections() | limitTo:10"></span>
+			<div item="page" topstory="false"></div>
+			<!--
+				uncomment this to show advertising
+				<div advertising-item ng-show="$index == 0"></div>
+			-->
+			<span ng-repeat-end></span>
+		</div>
+	</section>
+	<aside class="medium-4 columns content hide-for-small">
+		<div class="wrap both">
+			<v-plan
+				ng-if="homepage.cache.account.getConfig('MP3VplanEnabled') && homepage.cache.current_user.isLoggedIn()"
+				user="homepage.cache.current_user">
+			</v-plan>
+			<activity-box></activity-box>
+			<events-box
+				events-uri="homepage.cache.account.getConfig('MP3CalendarUri')"
+				events-limit="homepage.cache.account.getConfig('MP3CalendarLimitEvents')"
+				ng-if="homepage.cache.account.getConfig('MP3CalendarUri')">
+			</events-box>
+			<trivia-box
+				ng-if="homepage.cache.account.getConfig('MP3DidYouKnowEnabled') != false">
+			</trivia-box>
+			<div class="fb-page" data-href="https://www.facebook.com/medienportal" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false" data-show-posts="false"></div>
+			<div class="box ad">
+				<h3>Werbepause</h3>
+				<a href="http://www.schuelerhilfe.de/delitzsch/" target="_blank"><img src="/assets/images/wer_supp_klickermann_l.png" alt="Mit der freundlichen Unterstützung unseres Sponsors Schülerhilfe Delitzsch" /></a>
+			</div>
+			<feedback-box></feedback-box>
+		</div>
+	</aside>
+</div>
+
+<div class="row content randomarticle" style="min-height:700px;">
+	<div class="large-8 small-11 small-centered columns content">
+		<h3>Zufällige Artikel</h3>
+		<div
+			item="page"
+			topstory="$index == 0"
+			ng-repeat="page in homepage.cache.randomPages">
+		</div>
+	</div>
+</div>
+
+
+
+
+<div class="row content" style="margin-bottom:15px !important;">
+	<section class="large-8 small-11 small-centered columns content" >
+		<div class="wrap zeroleft">
+			<div ng-repeat="topic in homepage.cache.available_topics | limitTo:3">
+				<h3>{{topic}}</h3>
+				<div
+					item="page"
+					ng-repeat="page in homepage.pagesAndCollections() | filter:{'topic':topic}:true | limitTo:2 | orderBy:'created'">
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+
+<footer class="row" ng-include="'app/components/footer/footer.html'"></footer>

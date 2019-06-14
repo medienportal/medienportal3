@@ -1,0 +1,93 @@
+<div class="row content settings categories nolayout">
+	<div ng-include="'app/administration/navigation.html'"></div>
+	<div class="row">
+		<categories-settings-navigation></categories-settings-navigation>
+		<section class="medium-8 columns content">
+			<div class="config" style="margin-right: 10px;" ng-show="!settings.selectedCategory()">
+				<h3>Banner · 2000 x 440 px</h3>
+				<div class="conig_tab">
+					<div class="vorschaubild inputfile_wrap">
+						<input type="file" ngf-drop ngf-select ngf-change="settings.cache.account.setBanner($files)" />
+						<img
+							ng-src="{{settings.cache.account.getBanner()}}"
+							id="config_banner_picture_dropzone" />
+					</div>
+				</div>
+			</div>
+			<div class="config" style="margin-right: 10px;" ng-show="settings.selectedCategory()">
+				<form ng-submit="settings.selectedCategory().save()">
+					<h3>Titel</h3>
+					<div class="conig_tab">
+						<p class="intro"
+							contenteditable
+							ng-model="settings.selectedCategory().title">
+						</p>
+					</div>
+					<h3>Banner · 2000 x 440 px</h3>
+					<div class="conig_tab">
+						<div class="vorschaubild inputfile_wrap">
+							<input type="file" ngf-drop ngf-select ngf-change="settings.selectedCategory().setBanner($files)" />
+							<img
+								ng-src="{{settings.selectedCategory().getBanner()}}"
+								id="config_banner_picture_dropzone" />
+						</div>
+					</div>
+					<h3>Inhalt</h3>
+					<div class="conig_tab" style="text-align:center;">
+						<label class="site_content" ng-class="{active: settings.selectedCategory().config.pageType === 'greetingsPage'}">
+							<input type="radio" ng-model="settings.selectedCategory().config.pageType" value="greetingsPage" style="visibility: hidden; width: 0; height: 0; position: absolute;" />
+							<h3>Grüße</h3>
+							<img src="../../../assets/images/thumbnail_greetings1.png"/>
+							<p>Besucher können Grüße hinterlassen, bis auf alle Ewigkeit gespeichert.</p>
+						</label><label class="site_content" ng-class="{active: settings.selectedCategory().config.pageType === 'collectionPage'}">
+							<input type="radio" ng-model="settings.selectedCategory().config.pageType" value="collectionPage" style="visibility: hidden; width: 0; height: 0; position: absolute;" />
+							<h3>Bilder</h3>
+							<img src="../../../assets/images/thumbnail_albums1.png"/>
+							<p>Bilder und Galerien werden übersichtlich geordnet.</p>
+						</label><label class="site_content" ng-class="{active: settings.selectedCategory().config.pageType === 'standardPage'}">
+							<input type="radio" ng-model="settings.selectedCategory().config.pageType" value="standardPage" style="visibility: hidden; width: 0; height: 0; position: absolute;" />
+							<h3>Seiten</h3>
+							<img src="../../../assets/images/thumbnail_articles1.png"/>
+							<p>Eine Übersicht über erstellte und veröffentlichte Artikel.</p>
+						</label>
+					</div>
+					<h3 ng-if="settings.selectedCategory().config.pageType !== 'greetingsPage'">Unterkategorie</h3>
+					<div class="conig_tab" ng-if="settings.selectedCategory().config.pageType !== 'greetingsPage'">
+						<subcategories-listing items="settings.selectedCategory().navigation" selected-category="settings.selectedCategory()"></subcategories-listing>
+						{{settings.subcategoriesSettings.enableReorderSubcategories(settings.subcategoriesSettings)}}
+					</div>
+					<h3>Facebook-Box</h3>
+					<div class="conig_tab">
+						<input type="checkbox" id="show_facebook_box" ng-model="settings.selectedCategory().config.show_facebook_box" />
+						<label for="show_facebook_box">Facebook Box anzeigen</label>
+						<label>URL der Facebook-Box: </label>
+						<div class="row collapse">
+							<div class="small-6 columns">
+								<span class="prefix">https://facebook.com/</span>
+							</div>
+							<div class="small-6 columns">
+								<input type="text"
+									id="facebook_box_url"
+									ng-disabled="!settings.selectedCategory().config.show_facebook_box"
+									ng-model="settings.selectedCategory().config.facebook_box_url" />
+							</div>
+						</div>
+					</div>
+					<h3>Weitere Optionen</h3>
+					<div class="conig_tab">
+						<input type="checkbox" id="hide_from_homepage" ng-model="settings.selectedCategory().config.hide_from_homepage" />
+						<label for="hide_from_homepage">Auf der Homepage verstecken</label>
+					</div>
+					<div class="conig_tab">
+						<input type="button" value="abbrechen" ng-click="settings.categoriesSettings.resetSelectedCategory()" />
+						<input type="submit" value="speichern" />
+					</div>
+					<h3>DANGER ZONE</h3>
+					<div class="conig_tab">
+						<input type="button" value="löschen" ng-click="settings.categoriesSettings.deleteSelectedCategory()" />
+					</div>
+				</form>
+			</div>
+		</section>
+	</div>
+</div>

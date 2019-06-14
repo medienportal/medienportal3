@@ -1,0 +1,75 @@
+.likebox {
+  padding: 9px 14px;
+  margin: 10px 0px 0px 0px;
+  background-color: #a9d8b2;
+  border: 1px solid #57ad68;
+  border-radius: 2px;
+  overflow: auto;
+  button {
+    float: left;
+    display: block;
+    padding-right: 10px;
+    padding-left: 10px;
+    color: #57ad68;
+    height: 30px;
+    border: 1px solid #a9d8b2;
+    outline: none;
+    box-shadow: none;
+    border-radius: 4px;
+    background: white;
+    margin-right: 5px;
+    i {
+      margin-right: 5px;
+    }
+    &.active {
+      color: white;
+      border: 1px solid #57ad68;
+      background: #57ad68;
+      i {
+        color: white;
+      }
+      span,.fi-x {
+        display: none;
+      }
+      &:hover {
+        span,.fi-x {
+          display: inline-block;
+        }
+        .fi-heart {
+          display: none;
+        }
+      }
+    }
+  }
+  .likes {
+    color: white;
+    height: 30px;
+    min-width: 30px;
+    border: 1px solid #57ad68;
+    font-weight: 700;
+    background: #57ad68;
+  }
+  .liking_users {
+  	height: 30px;
+  	overflow: hidden;
+    & .profile_picture {
+      margin-left: 5px;
+      &:first-child { margin-left: 0; }
+    }
+  }
+  .profile_picture {
+    height: 30px;
+    border-radius: 2px;
+  }
+  .share {
+    float: right;
+    margin-right: 0;
+    background-color: white;
+  }
+  &:hover {
+    i {
+      color: red;
+      transition: color 150ms ease-in-out;
+    }
+  }
+}

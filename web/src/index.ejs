@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en" ng-controller="ApplicationCtrl as application" ng-app="medienportal" ng-jq>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="google-site-verification" content="4-x1E5WxqWzL6tCJuy7c2eCqnQ1--fH3mGs1ab2R_90" />
+    <meta name="fragment" content="!">
+    <!-- Place this data between the <head> tags of your website -->
+    <title ng-bind="application.sm.site_title()">Eine Seite des medienportal.org-Projekts</title>
+    <meta name="description" content="{{application.sm.site_description()}}" />
+
+    <!-- Twitter Card data -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="{{application.sm.twitter_handle()}}">
+    <meta name="twitter:title" content="{{application.sm.title()}}">
+    <meta name="twitter:description" content="{{application.sm.description()}}">
+    <meta name="twitter:image" content="{{application.sm.image()}}">
+
+    <!-- Open Graph data -->
+    <meta property="og:title" content="{{application.sm.title()}}" />
+    <meta property="og:type" content="{{application.sm.type()}}" />
+    <meta property="og:url" content="{{application.sm.url()}}" />
+    <meta property="og:image" content="{{application.sm.image()}}" />
+    <meta property="og:description" content="{{application.sm.description()}}" />
+    <meta property="og:site_name" content="{{application.sm.site_title()}}" />
+
+    <meta name="viewport" content="width=device-width">
+
+    <base href="/" />
+    <link rel="search" type="application/opensearchdescription+xml" title="<%= request.host %>" href="//<%= request.host%>/opensearch.xml" />
+
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+    <script src="//js.pusher.com/2.2/pusher.min.js" type="text/javascript"></script>
+    <!-- build:css({.tmp/serve,src}) styles/vendor.css -->
+    <link rel="stylesheet" href="/app/vendor.css">
+    <!-- bower:css -->
+    <!-- run `gulp inject` to automatically populate bower styles dependencies -->
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:css({.tmp/serve,src}) styles/app.css -->
+    <!-- inject:css -->
+    <!-- css files will be automatically insert here -->
+    <!-- endinject -->
+    <!-- endbuild -->
+
+    <!-- intercom.io -->
+    <script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/d6yc6ucp';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
+    <script type="text/javascript">
+        window.api_endpoint = '/api';
+        window.account = <%- JSON.stringify(account) %>;
+        window.MAX_SIMULTANIOUS_UPLOAD_REQUESTS = <%= config.MAX_SIMULTANIOUS_UPLOAD_REQUESTS || 1%>;
+    </script>
+    <style>
+        {{application.ThemeManager.getStyles()}}
+    </style>
+    <!-- start Mixpanel --><script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+mixpanel.init("4574f7210f621048becb14cb16ba7765");</script><!-- end Mixpanel -->
+</head>
+<body ng-class="application.lm.classes()">
+<toaster-container></toaster-container>
+<img src="/assets/images/defaultavatar.png" style="display: none;" id="panda_image_defaultavatar" />
+<div id="fb-root"></div>
+<em ng-show="showLoader"></em>
+<cookie-info-panel>
+    <p>Diese Webseite verwendet den <a href="https://de.wikipedia.org/wiki/Web_Storage" target="_blank">Web Storage</a> Ihres Browsers und <a href="https://de.wikipedia.org/wiki/HTTP-Cookie" target="_blank">Cookies</a> von Drittanbietern.</p>
+</cookie-info-panel>
+<div class="background row" ng-class="{fullsize: fullsize}">
+    <section class="main large-12 columns content">
+        <section
+                ng-include="'app/components/header/header.html'"
+                ng-controller="HeaderCtrl as header">
+        </section>
+        <ng-view ng-hide="showLoader" autoscroll="'true'"></ng-view>
+        <section
+            class="userbar hide-for-small"
+            ng-include="'app/components/userbar/userbar.html'"
+            ng-controller="UserbarCtrl as userbar"
+            ng-show="userbar.isShowUserbar()">
+        </section>
+    </section>
+</div>
+<!-- build:js(src) scripts/vendor.js -->
+<!-- bower:js -->
+<!-- run `gulp inject` to automatically populate bower script dependencies -->
+<!-- endbower -->
+<!-- endbuild -->
+
+<!-- build:js({.tmp/serve,.tmp/partials}) scripts/app.js -->
+<!-- inject:js -->
+<!-- js files will be automatically insert here -->
+<!-- endinject -->
+
+<!-- inject:partials -->
+<!-- angular templates will be automatically converted in js and inserted here -->
+<!-- endinject -->
+<!-- endbuild -->
+
+<script type="text/javascript">
+    (function() {
+        var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+        po.src = 'https://apis.google.com/js/client:plusone.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+    })();
+</script>
+
+<% if (!is_dev_env) { %>
+	<script type="text/javascript" src="//d2zah9y47r7bi2.cloudfront.net/releases/current/tracker.js" data-token="c33336c309c64a83a0c1af3cc0387a24"></script>
+<% } %>
+
+<script>
+	window.configuration = <%- JSON.stringify(config.public_configuration) %>
+</script>
+
+<% if (!is_dev_env) { %>
+	<!-- Matomo -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+  _paq.push(["setDoNotTrack", true]);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//analytics.einsa.net/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '3']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//analytics.einsa.net/piwik.php?idsite=3&amp;rec=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Matomo Code -->
+<% } %>
+
+</body>
+</html>

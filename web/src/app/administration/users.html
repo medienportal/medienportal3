@@ -1,0 +1,96 @@
+<div class="row content settings users_overview nolayout">
+	<div ng-include="'app/administration/navigation.html'"></div>
+	<div class="small-11 medium-10 large-8 small-centered columns content">
+
+		<div class="wrap">
+			<section>
+				<div class="users_search">
+					<mac-autocomplete
+				            mac-autocomplete-source="settings.searchUserByName(settings.userSearcher)"
+				            mac-autocomplete-on-select="settings.selectSearchedUser(selected, link)"
+				            mac-autocomplete-delay="200"
+				            mac-placeholder="'Person suchen'"
+				            ng-model="settings.selectedUserName"
+				            class="large-12 columns">
+				        <span>
+				            <img ng-src="{{item.getImage('small')}}" alt="{{item.first_name}} {{item.last_name}}" style="height: 75px" />
+				            <b>{{item.first_name}} {{item.last_name}}</b>
+				        </span>
+				    </mac-autocomplete>
+				</div>
+				<div class="selected-user" style="border: 1px solid #000;" ng-show="settings.selectedUser">
+					<p>
+						<img ng-src="{{settings.selectedUser.getImage('small')}}" alt="{{settings.selectedUser.first_name}} {{settings.selectedUser.last_name}}" style="height: 75px" />
+						<b>{{settings.selectedUser.first_name}} {{settings.selectedUser.first_name}}</b>
+					</p>
+					<p>
+						<h3>Rechte hinzufügen</h3>
+						<span ng-repeat="(right, description) in settings.possibleGlobalRights()">
+							<label>
+								<input type="checkbox"
+									   ng-model="settings.newPermissions[right]"
+									   ng-change="settings.saveUserRights(settings.selectedUser, settings.newPermissions)" />
+								{{description}}
+							</label>
+						</span>
+						<div>
+							kann
+							<form ng-submit="settings.selectRight(newCategoryPermission)">
+								<select ng-model="newCategoryPermission.category">
+									<option ng-repeat="category in settings.cache.categories" ng-value="category.id">{{category.title}}</option>
+								</select>
+								<select ng-model="newCategoryPermission.right">
+									<option ng-repeat="(right, description) in settings.possibleCategoryRights()" ng-value="right">{{description}}</option>
+								</select>
+								<input type="submit" value="hinzufügen" />
+							</form>
+						</div>
+						<div>
+							<div ng-repeat="(categoryId, rights) in settings.newPermissions">
+								<div ng-repeat="(right, isTrue) in rights">
+									Darf {{settings.getCategoryTitle(categoryId)}} {{settings.possibleCategoryRights()[right]}}.
+								</div>
+							</div>
+						</div>
+					</p>
+				</div>
+				<table class="users_overview">
+					<thead>
+						<tr><td colspan="3">Nutzerreche verwalten</td></tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td></td>
+							<td>Name</td>
+							<td>Mitglied seit</td>
+						</tr>
+						<tr ng-repeat="user in settings.coworkers() | filter:usersearch.text | orderBy:settings.users.order" ng-click="settings.selectSearchedUser(user)">
+							<td colspan="3">
+								<table>
+									<tr>
+										<td><img ng-src="{{user.getImage()}}" alt="Profilbild von {{user.name}}" class="profilbild" /></td>
+										<td>{{user.name}}</td>
+										<td>{{settings.moment(user.created_at).calendar()}}</td>
+									</tr>
+									<tr>
+										<td colspan="3">
+											<div ng-repeat="(categoryId, rights) in user.permissions[settings.cache.account._id]">
+												<div ng-if="user.isAdmin()">Ist Administrator.</div>
+												<div ng-if="user.isAudioUploader()">Kann Audio hochladen.</div>
+												<div ng-if="user.isVideoUploader()">Kann Video hochladen.</div>
+												<div ng-repeat="(right, isTrue) in rights">
+													Darf {{settings.getCategoryTitle(categoryId)}} {{settings.possibleCategoryRights()[right]}}.
+												</div>
+											</div>
+										</td>
+								</table>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</section>
+		</div>
+
+	</div>
+
+</div>

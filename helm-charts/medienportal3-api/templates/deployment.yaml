@@ -1,0 +1,104 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "medienportal3-api.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "medienportal3-api.name" . }}
+    helm.sh/chart: {{ include "medienportal3-api.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "medienportal3-api.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "medienportal3-api.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 9000
+              protocol: TCP
+          env:
+            - name: CORS_ALLOWED_ORIGIN_HEADER
+              value: "{{ .Values.apiConfig.cors.allowedOriginHeader }}"
+            - name: APP_URL
+              value: "{{ .Values.apiConfig.appUrl }}"
+            - name: MONGO_URL
+              value: "{{ .Values.apiConfig.mongo.url }}"
+            - name: ELASTICSEARCH_HOST
+              value: "{{ .Values.apiConfig.elasticsearch.host }}"
+            - name: REDIS_HOST
+              value: "{{ .Values.apiConfig.redis.host }}"
+            - name: REDIS_PORT
+              value: "{{ .Values.apiConfig.redis.hort }}"
+            - name: REDIS_PASSWORD
+              value: "{{ .Values.apiConfig.redis.password }}"
+            - name: REDIS_DB
+              value: "{{ .Values.apiConfig.redis.db }}"
+            - name: ROLLBAR_KEY
+              value: "{{ .Values.apiConfig.rollbar.key }}"
+            - name: AWS_KEY
+              value: "{{ .Values.apiConfig.aws.key }}"
+            - name: AWS_SECRET
+              value: "{{ .Values.apiConfig.aws.secret }}"
+            - name: AWS_REGION
+              value: "{{ .Values.apiConfig.aws.region }}"
+            - name: S3_BUCKET_NAME
+              value: "{{ .Values.apiConfig.aws.s3.bucketName }}"
+            - name: CDN_URL
+              value: "{{ .Values.apiConfig.cdnUrl }}"
+            - name: SOUNDCLOUD_ENDPOINT
+              value: "{{ .Values.apiConfig.soundcloud.endpoint }}"
+            - name: SOUNDCLOUD_CLIENTID
+              value: "{{ .Values.apiConfig.soundcloud.clientId }}"
+            - name: SOUNDCLOUD_SECRET
+              value: "{{ .Values.apiConfig.soundcloud.secret }}"
+            - name: SOUNDCLOUD_USERNAME
+              value: "{{ .Values.apiConfig.soundcloud.username }}"
+            - name: SOUNDCLOUD_PASSWORD
+              value: "{{ .Values.apiConfig.soundcloud.password }}"
+            - name: GOOGLE_CLIENTID
+              value: "{{ .Values.apiConfig.google.clientid }}"
+            - name: GOOGLE_SECRET
+              value: "{{ .Values.apiConfig.google.secret }}"
+            - name: MANDRILL_KEY
+              value: "{{ .Values.apiConfig.mandrill.key }}"
+            - name: ZENCODER_KEY
+              value: "{{ .Values.apiConfig.zencoder.key }}"
+            - name: PUSHER_APP_ID
+              value: "{{ .Values.apiConfig.pusher.appId }}"
+            - name: PUSHER_APP_KEY
+              value: "{{ .Values.apiConfig.pusher.appKey }}"
+            - name: PUSHER_APP_SECRET
+              value: "{{ .Values.apiConfig.pusher.appSecret }}"
+          # livenessProbe:
+          #   httpGet:
+          #     path: /api/info.json
+          #     port: http
+          # readinessProbe:
+          #   httpGet:
+          #     path: /api/info.json
+          #     port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

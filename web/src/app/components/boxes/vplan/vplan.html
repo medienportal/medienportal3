@@ -1,0 +1,52 @@
+<div class="box plan" ng-if="!error">
+	<div ng-hide="user.klass" class="error">
+		<div class="wrapper">
+		<p style="margin-bottom: 8px;">Stelle hier deine Klasse ein und lasse dir deinen Vertretungsplan für den nächsten Tag anzeigen:</p>
+		<form ng-submit="setKlass()">
+			<select
+			ng-model="klass.first"
+			required="true"
+			ng-options="klass for klass in [5, 6, 7, 8, 9, 10, 11, 12]"></select>
+			<select
+				ng-model="klass.second"
+				ng-required="klass.first != 11 && klass.first != 11"
+				ng-show="klass.first && (klass.first != 11 && klass.first != 11)"
+				ng-options="klass for klass in [1, 2, 3, 4, 5, 6]"></select>
+			<input type="submit" value="weiter" />
+		</form>
+		</div>
+		<div class="wrapper" style="border-top:1px dotted lightgray;">
+			<p style="color: #57ad68;"><i style="margin-right:5px;" class="fi-pencil"></i> Du kannst die Klasse nachträglich in deinem Profil ändern.</p>
+		</div>
+	</div>
+	<div ng-if="user.klass">
+		<p id="date"></i>Infos für <b>{{vp.kopf.titel[0]}}</b>:</p>
+		<div class="wrapper">
+			<b>Fehlende Lehrer</b>
+			<p>{{vp.kopf.kopfinfo[0].abwesendl[0]}}</p>
+			<section ng-if="vp.aktionen.length > 0">
+				<b>Änderungen</b>
+				<p ng-repeat="aktion in vp.aktionen">
+					<span ng-hide="user.klass == aktion.klasse[0]">{{aktion.klasse[0]}}:</span>
+					<span ng-if="aktion.stunde[0]">in der {{aktion.stunde[0]}}.</span>
+					<span ng-if="aktion.fach[0]">{{aktion.fach[0]}}</span>
+					<span ng-if="aktion.lehrer[0]">mit {{aktion.lehrer[0]}}</span>
+					<span ng-if="aktion.info[0]">{{aktion.info[0]}}</span>
+					<span ng-if="aktion.raum[0]">in Raum {{aktion.raum[0]}}</span>
+				</p>
+			</section>
+			<section ng-if="vp.fuss">
+				<b>Sonstige Informationen:</b>
+				<p>{{vp.fuss}}</p>
+			</section>
+		</div>
+	</div>
+</div>
+
+<div class="box plan" ng-if="error">
+	<h3 style="border-bottom:1px solid lightgray;padding-bottom:15px;font-size: 10px;font-weight: 300;padding: 7px 0px 7px 15px;letter-spacing: 1px;">Vertretungsplan</h3>
+	<div class="wrapper">
+		<b>Ein Fehler ist beim Herunterladen des Vertretungsplans aufgetaucht.</b>
+		<p class="error">{{error}}</p>
+	</div>
+</div>

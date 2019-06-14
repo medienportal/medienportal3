@@ -1,0 +1,23 @@
+<div class="loginuser">
+    <form ng-submit="newpage.submitCreateForm()" style="border:none;">
+        <div>
+            <label for="newpage-title">
+                Titel:
+            </label>
+            <input type="text" placeholder="Titel" id="newpage-title" ng-model="newpage.newPageSettings.title" />
+        </div>
+
+        <div>
+            <label for="newpage-categoryid">
+                Kategorie:
+            </label>
+            <select
+                ng-options="category.id as category.title for category in newpage.possibleCategories()"
+                ng-model="newpage.newPageSettings.category_id"
+                id="newpage-categoryid">
+            </select>
+        </div>
+        <input class="submit" style="margin-top:25px;" type="submit" value="Seite erstellen" />
+        <div style="clear:both;"></>
+    </form>
+</div>

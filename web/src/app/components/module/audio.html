@@ -1,0 +1,12 @@
+<span ng-if="isEditing()">status: {{module.state}}</span>
+<div class="audio" id="module_{{module.id}}">
+	<audio controls style="display:block">
+		<source
+			ng-src="{{'//d1dvvsd95n8302.cloudfront.net' + version.relativeUrl}}"
+			type="{{getMimeType(version.mimetype || ('audio/' + version.name))}}"
+			ng-repeat="version in module.files[0].versions"
+			ng-if="version.name !== 'original'" />
+	</audio>
+</div>
+<input type="file" ngf-select ngf-change="module.setFile($files, page)" ng-if="isEditing()" />
+<p contenteditable="{{isEditing()}}" ng-model="module.content" class="module_additionalinfo" ng-blur="module.save(page)" ng-change="realtime()"></p>

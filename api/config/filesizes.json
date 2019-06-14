@@ -1,0 +1,173 @@
+{
+	"videos": {
+		"mp4": {
+			"output": {
+				"label": "mp4",
+				"h264_profile": "high",
+				"width": 720,
+				"public": 1
+			},
+			"target": "standard",
+			"extension": "mp4"
+		},
+		"webm": {
+			"output": {
+				"label": "webm",
+				"format": "webm",
+				"width": 720,
+				"public": 1
+			},
+			"target": "standard",
+			"extension": "webm"
+    	}
+	},
+	"audio": {
+		"mp3": {
+			"output": {
+				"label": "mp3",
+				"public": 1
+			},
+			"target": "standard",
+			"extension": "mp3"
+		},
+		"ogg": {
+			"output": {
+				"label": "ogg",
+				"format": "ogg",
+				"public": 1
+			},
+			"target": "standard",
+			"extension": "ogg"
+    	}
+	},
+	"image": {
+		"small":
+		{
+			"width": 200,
+			"height": 150,
+			"options": "^",
+			"crop": true,
+			"name": "small"
+		},
+		"small@2x":
+		{
+			"width": 400,
+			"height": 300,
+			"options": "^",
+			"crop": true,
+			"name": "small@2x"
+		},
+		"smalldouble":
+		{
+			"width": 400,
+			"height": 300,
+			"options": "^",
+			"crop": true,
+			"name": "smalldouble"
+		},
+		"smalldouble@2x":
+		{
+			"width": 800,
+			"height": 600,
+			"options": "^",
+			"crop": true,
+			"name": "smalldouble@2x"
+		},
+		"middle_mobile":
+		{
+			"width": 500,
+			"height": 230,
+			"options": "^",
+			"crop": true,
+			"name": "middle_mobile"
+		},
+		"middle_mobile@2x":
+		{
+			"width": 1000,
+			"height": 460,
+			"options": "^",
+			"crop": true,
+			"name": "middle_mobile@2x"
+		},
+		"middle":
+		{
+			"width": 650,
+			"height": 300,
+			"options": "^",
+			"crop": true,
+			"name": "middle"
+		},
+		"middle@2x":
+		{
+			"width": 1300,
+			"height": 600,
+			"options": "^",
+			"crop": true,
+			"name": "middle@2x"
+		},
+		"avatar_small":
+		{
+			"width": 50,
+			"height": 50,
+			"options": "^",
+			"crop": true,
+			"name": "avatar_small"
+		},
+		"avatar_small@2x":
+		{
+			"width": 100,
+			"height": 100,
+			"options": "^",
+			"crop": true,
+			"name": "avatar_small@2x"
+		},
+		"avatar_middle":
+		{
+			"width": 150,
+			"height": 150,
+			"options": "^",
+			"crop": true,
+			"name": "avatar_middle"
+		},
+		"avatar_middle@2x":
+		{
+			"width": 300,
+			"height": 300,
+			"options": "^",
+			"crop": true,
+			"name": "avatar_middle@2x"
+		},
+		"standard":
+		{
+			"width": 940,
+			"height": null,
+			"options": "^",
+			"crop": false,
+			"name": "standard"
+		},
+		"standard@2x":
+		{
+			"width": 1880,
+			"height": null,
+			"options": "^",
+			"crop": false,
+			"name": "standard@2x"
+		},
+		"banner":
+		{
+		  "width": 1000,
+		  "height": 220,
+		  "options": "^",
+		  "crop": true,
+		  "name": "banner"
+		},
+		"banner@2x":
+		{
+		  "width": 2000,
+		  "height": 440,
+		  "options": "^",
+		  "crop": true,
+		  "name": "banner@2x"
+		}
+	}
+}

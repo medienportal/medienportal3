@@ -1,0 +1,93 @@
+<article class="item collection page" ng-class="classes()" ng-if="enforcePageLayout || item.modelName == 'Page'" ng-click="openItem(item, $event)">
+	<div>
+		<img bn-lazy-src="{{item.getPreview(previewSize())}}" ng-if="item.getPreview(previewSize())" />
+		<h2>
+			<a ng-href="{{baseUrl}}/#!/{{item.modelName.toLowerCase()}}/{{item.id}}"
+				title="{{item.title}} öffnen"
+				ng-bind-html="item.title"
+				ng-click="openItem(item, $event)">
+			</a>
+		</h2>
+		<p class="commenttime" style="margin-bottom: 5px;">
+			<span class="label new" ng-show="isNew()">
+				<i class="fi-burst"></i>neu
+			</span>
+			<a class="label" ng-if="item.topic" ng-href="{{baseUrl}}/#!/search/?f=topic:{{item.topic}}" ng-click="openTopic(item.topic, $event)">
+				{{item.topic}}
+			</a>
+			{{moment(item.created_at).format('L')}}
+			<a ng-if="getCommentsCount() > 0"
+				ng-href="{{baseUrl}}/#!/{{item.modelName.toLowerCase()}}/{{item.id}}#comments"
+				ng-click="openItem(item, $event, 'comments')">
+				·
+				<ng-pluralize count="getCommentsCount()"
+							  when="{
+								  1: '1 Kommentar',
+								  other: '{} Kommentare'
+							  }">
+				</ng-pluralize>
+			</a>
+			<span ng-if="item.likes.length > 0">
+				·
+				<ng-pluralize count="item.likes.length"
+							  when="{
+								  1: 'eine Empfehlung',
+								  other: '{} Empfehlungen'
+							  }">
+				</ng-pluralize>
+			</span>
+			<span class="make-prominent" ng-click="makeItemProminent($event)" ng-if="current_user.isAdmin()">
+				· <i class="fi-megaphone"></i>prominent
+			</span>
+		</p>
+		<p ng-bind-html="item.config.excerp" class="excerp teasertext"></p>
+	<div>
+</article>
+<article class="item album page" ng-class="classes()" ng-if="!enforcePageLayout && item.modelName == 'Collection'"  ng-click="openItem(item, $event)">
+	<div>
+		<img bn-lazy-src="{{item.getPreview(previewSize())}}" ng-if="item.getPreview(previewSize())" />
+		<h2>
+			<a ng-href="{{baseUrl}}/#!/{{item.modelName.toLowerCase()}}/{{item.id}}"
+				title="{{item.title}} öffnen"
+				ng-bind-html="item.title"
+				ng-click="openItem(item, $event)">
+			</a>
+		</h2>
+		<p class="commenttime" style="margin-bottom: 5px;">
+			<span class="label new" ng-show="isNew()">
+				<i class="fi-burst"></i>neu
+			</span>
+			<a class="label" ng-if="item.topic" ng-href="{{baseUrl}}/#!/search/?f=topic:{{item.topic}}" ng-click="openTopic(item.topic, $event)">
+				{{item.topic}}
+			</a>
+			{{moment(item.created_at).format('L')}}
+			<span ng-if="getCommentsCount() > 0">
+				·
+				<ng-pluralize count="getCommentsCount()"
+							  when="{
+								  1: '1 Kommentar',
+								  other: '{} Kommentare'
+							  }">
+				</ng-pluralize>
+			</span>
+			<span ng-if="item.likes.length > 0">
+				·
+				<ng-pluralize count="item.likes.length"
+							  when="{
+								  1: 'eine Empfehlung',
+								  other: '{} Empfehlungen'
+							  }">
+				</ng-pluralize>
+			</span>
+			<span>
+				· {{item.files.length}} Bilder
+			</span>
+			<span class="make-prominent" ng-click="makeItemProminent($event)" ng-if="current_user.isAdmin()">
+				 ·<i class="fi-megaphone"></i>prominent
+			</span>
+		</p>
+		<div class="roll">
+			<img bn-lazy-src="{{file.getFile('small')}}" ng-repeat="file in item.files | limitTo:6" />
+		</div>
+	<div>
+</article>

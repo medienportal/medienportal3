@@ -1,0 +1,31 @@
+<section class="loginuser" ng-if="!login.step">
+	<h1>Anmelden</h1>
+	<div class="federated">
+		<a class="facebook" ng-click="login.facebookLogin()">
+			<span>mit Facebook anmelden</span>
+		</a>
+		<a class="google" ng-click="login.gPlusLogin()">
+			<span>mit Google+ anmelden</span>
+		</a>
+	</div>
+	<form ng-submit="login.emailLogin()">
+		<input type="text" placeholder="Email" ng-model="login.loginuser.email" />
+		<input type="password" placeholder="Passwort" ng-model="login.loginuser.password" />
+		<input class="submit" type="submit" ng-value="login.status" ng-disabled="login.status !== 'anmelden'" />
+		<p class="lost" ng-click="login.requestPasswordRecoveryPage()" style="text-align:center;">Passwort vergessen?</p>
+	</form>
+	<div style="clear:both;"></>
+</section>
+
+<section class="loginuser forgot_pw" ng-if="login.step === 'request_password_recovery'">
+	<h1>Passwort wiederherstellen</h1>
+	<p ng-hide="login.pw_recovery_status" class="teaser" style="padding-bottom:25px;">Gib hier die Email-Adresse ein, unter du dich registriert hast, um dein Passwort zurückzusetzen.</p>
+	<form ng-submit="login.requestPWRecovery(login.pw_recovery.email)" ng-hide="login.pw_recovery_status">
+		<input type="text" placeholder="Email" ng-model="login.pw_recovery.email" />
+		<input  class="submit" type="submit" value="Passwort zurücksetzen" />
+		<p class="lost" type="button" ng-click="login.mainPage()">zurück</p>
+	</form>
+	<div style="clear:both;"></>
+	<p class="teaser" ng-if="login.pw_recovery_status == 'OK'">Solltest die Email angemeldet sein, bekommst du weitere Informationen per Email.</p>
+	<p class="teaser" ng-if="login.pw_recovery_status && login.pw_recovery_status != 'OK'">{{login.pw_recovery_status}}</p>
+</section>

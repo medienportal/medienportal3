@@ -1,0 +1,101 @@
+.profile {
+	.user {
+		.small-3 {
+			.box {
+				margin-right: 10px;
+			}
+			img {
+				width: 100%;
+			}
+			p {
+				padding: 5px;
+				text-align: center;
+				color: #00a7ff;
+				border-top: 1px solid lightgray;
+			}
+			&:hover {
+				p {
+					text-decoration: underline;
+				}
+			}
+		}
+		.box {
+			&.name, &.email {
+				&.name p { font-weight: 600; }
+				p {
+					padding: 5px 5px 5px 15px;
+					a {
+						font-weight: 100;
+						color: #00a7ff;
+						margin-left: 10px;
+						&:hover {
+							text-decoration: underline;
+						}
+					}
+				}
+			}
+			&.no, &.no h3 {
+				color: lightgray !important;
+			}
+			&.class {
+				select {
+					margin: 10px 0px 10px 12px;
+					width: 80px;
+					height: 26px;
+					border: 1px solid lightgray;
+					color: $text-color;
+					background: white;
+					&:last-child {
+						margin-left: 0;
+					}
+				}
+				.removeclass {
+					padding: 5px 10px;
+					border-top: 1px solid #EFEFEF;
+					a {
+						text-decoration: none;
+						color: #EFEFEF;
+					}
+					&:hover a {
+						color: #666;
+					}
+				}
+			}
+			&.vita {
+				textarea {
+					width: 215px;
+					min-height: 80px;
+					overflow: hidden;
+					padding: 10px 15px;
+					margin: 0px;
+					box-shadow: none;
+					resize: none;
+					border: none;
+					outline: none;
+					font-size: 14px;
+					line-height: 1.6;
+					color: black;
+				}
+			}
+			&.services {
+				ul {
+					list-style: none;
+					padding: 5px 15px;
+					label {margin-left: 5px;}
+				}
+			}
+			h3 {
+				font-size: 10px;
+				font-weight: 300;
+				padding: 7px 0px 7px 15px;
+				letter-spacing: 1px;
+			}
+		}
+	}
+	.adminright {
+		text-align: right;
+	}
+	.group {
+		padding: 5px 15px;
+	}
+}

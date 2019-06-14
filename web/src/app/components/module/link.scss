@@ -1,0 +1,41 @@
+.link {
+	select {
+		width: 50%;
+		margin: 10px;
+	}
+	.addanother {
+		margin: 10px;
+		color: #00a7ff;
+		display: inline-block;
+		border: 1px solid #00a7ff;
+		cursor: pointer;
+		padding: 5px 10px;
+		border-radius: 2px;
+		&:hover {
+			background: #00a7ff;
+			color: white;
+		}
+	}
+	article {
+		> div {
+			margin: 0px 10px 10px 10px;
+		}
+		float: none !important;
+		img {
+			height: 100px !important;
+			float: left;
+			width: 150px !important;
+		}
+		.teasertext {
+			padding: 0 !important;
+		}
+	}
+
+    button.remove {
+        width: 100%;
+        border: 1px solid #000;
+        border-radius: 3px;
+        background-color: rgba(200, 25, 25, 0.5);
+        padding: 5px;
+    }
+}

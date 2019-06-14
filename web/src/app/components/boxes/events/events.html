@@ -1,0 +1,15 @@
+<div class="box hints" ng-show="!loading">
+	<div class="events" ng-if="!error">
+		<h3>Nächste Termine</h3>
+		<p ng-repeat="event in events | orderBy:'start' | limitTo:eventsLimit">
+			<span>{{event.start.format('DD.MM.')}}</span>
+			{{event.summary}}
+		</p>
+		<p ng-if="loadedEvents.length < 1">
+			<i>Es stehen keine Termine an</i>
+		</p>
+	</div>
+	<div ng-if="error">
+		Es ist ein Fehler aufgetreten. Bitte versuche es später erneut.
+	</div>
+</div>

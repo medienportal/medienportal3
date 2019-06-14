@@ -1,0 +1,9 @@
+<nav>
+	<ul>
+		<li ng-click="open('/administration')" ng-class="{active: getAdministrationSection() === 'overview'}" value="Übersicht">Übersicht</li>
+		<li ng-click="open('/administration/users')" ng-class="{active: getAdministrationSection() === 'users'}" value="Rechteverwaltung">Rechteverwaltung</li>
+		<li ng-click="open('/administration/categories')" ng-class="{active: getAdministrationSection() === 'categories'}" value="Kategorien">Kategorien</li>
+		<li ng-click="open('/administration/trivia')" ng-class="{active: getAdministrationSection() === 'trivia'}" value="Homepageboxen">Homepageboxen</li>
+		<li ng-click="open('/administration/themes')" ng-class="{active: getAdministrationSection() === 'themes'}" value="Themes">Anzeige</li>
+	</ul>
+</nav>
