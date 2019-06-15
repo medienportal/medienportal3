@@ -1,26 +1,12 @@
 # medienportal
+
+> Diese Anleitung wurde nicht auf den aktuellen Stand gebracht.
+
 ## Was es ist
 
 Das Medienportal ist ein Portal für Schulen, auf denen alle Schulmedien aggregiert werden. Es ist zugänglich und auch für Schüler leicht verständlich.
 
 ## Einrichten
-
-### 'Migration Guide' vom alten Medienportal-Guide
-
-Diese Sektion ist nur vorübergehend um zu zeigen, wie der neueste Master am einfachsten einzurichten ist:
-
-- lösche dein altes Projekt (einfach den Ordner `medienportal_neu` von der festplatte löschen)
-- im Terminal in den Ordner navigieren, wo früher `medienportal_neu` war (zB ~/Websites, im Terminal mit `cd ~/Websites/`)
-- Ab hier einfach starten mit der unteren Anleitung: Projekt klonen, dann Abhängigkeiten installieren)
-
-!!! Achtung: Änderungen
-- Das Projekt öffnet sich nicht mehr von alleine im Browser. Einfach Browser öffnen und `http://panda.dev:3000` in die Browserleiste eintippen
-- Das Projekt lädt Änderungen nicht mehr automatisch im Browser. Einfach Browser-Reload durchführen (cmd+R)
-Diese 2 Punkte werden eventuell nachgereicht.
-  Bitte beachten, dass sich die Ordnerstruktur geändert hat. Am Besten mal die README einmal aufmerksam durchlesen.
-
-### Projekt Klonen
-Das Projekt wird mit `git clone ssh://git@bitbucket.org/unsdrei/medienportal_neu.git` auf die Platte klopiert.
 
 ### Abhängigkeiten installieren
 Die Abhängigkeiten werden per npm und [bower](http://bower.io/) verwaltet. Direkt nach dem Klonen sollten `npm install` und `bower install` ausgeführt werden.
@@ -33,22 +19,9 @@ Deshalb solltest du lokal ein Redirect auf von *panda.dev* auf *127.0.0.1 (local
 Im Prinzip musst du in der */etc/hosts* (Linux/Mac) oder *C:/Windows/System32/etc/hosts* (Windows) den Eintrag *panda.dev 127.0.0.1* hinzufügen.
 **Falls du nicht genau weißt, wie das funktioniert, ist es besser, du lässt dir helfen.**
 
-### den Server starten
-Es gibt ein Backend-Server, der unter [Server](https://bitbucket.org/unsdrei/medienportal_api) erhältlich ist.
-Du kannst entweder den Server bei dir lokal einrichten und nutzen, ansonsten wird standardmäßig https://preview.api.medienportal.org benutzt.
-Einzustellen ist das in der Konfigurations-Datei unter `./config/environments/development.json`
-
 ### Projekt lokal starten
 Um das Projekt lokal zu starten, wird gulp benötigt (zu installieren mit `npm install gulp -g`);
 Ist gulp installiert, lässt sich das Projekt mit `gulp serve` starten.
-
-### Versionierung
-Bitte bei jedem Update die Version in der Datei `package.json` updaten.
-
-oder:
-
-Nach dem committen `npm version patch` setzen und dann pushen mit `git push`.
-(Version wird eins höher gesetzt)
 
 ### Tests durchführen
 Bevor du Änderungen veröffentlichst, gehe sicher, dass nichts kaputt gegangen ist. Tests können dabei helfen. Um die Tests abzufahren,
@@ -120,14 +93,11 @@ Die API ist ein eigenständiges Projekt, zu finden unter https://bitbucket.org/u
 
 
 ### Zugehörige Projekte
+
+> Diese Projekte werden *eventuell* zu einem späteren Zeitpunkt veröffentlicht (müssten erst aufbereitet werden)
+
 #### medienportal.org
 Die Landingpage des Medienportal-Projektes ist zu finden unter https://bitbucket.org/medienportal/landingpage
 
 #### medienportal Administration (admin.medienportal.org)
 Die Administrationsseite für Tenants, Rechnungen, etc. ist zu finden unter https://bitbucket.org/medienportal/administration
-
-#### URL-Shortener (mport.al)
-Der URL-Shortener ist zu finden unter https://bitbucket.org/medienportal/url-shortener
-
-#### PhantomJS-Server (phantom.services.medienportal.org)
-Der PhantomJS-Server parsed HTML-Seiten und kann Bilder extrahieren bzw. Audrücke als png, jpeg oder pdf ausgeben. Er ist zu finden unter https://bitbucket.org/medienportal/phantom
