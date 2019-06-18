@@ -10,7 +10,12 @@ var config = require('../config'),
 	PATH = require('path'),
 	AWS = require('aws-sdk'),
 	ZencoderProcessor = require('../service/uploader/zencoder'),
-	s3 = new AWS.S3();
+	s3 = new AWS.S3({
+		accessKeyId: config.amazon.s3.key,
+		secretAccessKey: config.amazon.s3.secret,
+		apiVersion: '2012-08-10',
+		region: config.amazon.s3.region
+	});
 
 events.EventEmitter.defaultMaxListeners = 0;
 
