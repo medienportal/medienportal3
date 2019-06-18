@@ -80,14 +80,14 @@ spec:
               value: "{{ .Values.apiConfig.pusher.appKey }}"
             - name: PUSHER_APP_SECRET
               value: "{{ .Values.apiConfig.pusher.appSecret }}"
-          # livenessProbe:
-          #   httpGet:
-          #     path: /api/info.json
-          #     port: http
-          # readinessProbe:
-          #   httpGet:
-          #     path: /api/info.json
-          #     port: http
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

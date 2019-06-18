@@ -27,6 +27,11 @@ app.set('port', process.env.PORT || config.port || 9000); // standard port is 90
 
 app.use(morgan('dev'));
 app.use(compression());
+
+app.get('/health', function (req, res) {
+	res.status(200).send();
+});
+
 // Add some standard headers that belong to every request
 // See service/allow_cross_domain.js for more information
 app.use(require('./service/allow_cross_domain'));
