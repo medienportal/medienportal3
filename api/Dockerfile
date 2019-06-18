@@ -1,5 +1,9 @@
 FROM node:0.12
 
+RUN wget ftp://ftp.graphicsmagick.org/pub/GraphicsMagick/1.3/GraphicsMagick-1.3.19.tar.gz
+RUN tar -xvf GraphicsMagick-1.3.19.tar.gz
+RUN cd GraphicsMagick-1.3.19 && ./configure && make && make install
+
 WORKDIR /usr/src/app
 
 COPY . .
