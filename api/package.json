@@ -38,7 +38,7 @@
     "mandrill-api": "~1.0.39",
     "method-override": "^2.3.5",
     "mocha": "^1.17.1",
-    "mongoose": "^4.0.1",
+    "mongoose": "^5.7.7",
     "morgan": "^1.6.1",
     "nodemailer": "^1.3.2",
     "nodemailer-express-handlebars": "^1.0.0",
