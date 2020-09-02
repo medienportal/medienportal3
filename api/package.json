@@ -30,7 +30,7 @@
     "express": "^4.13.3",
     "fbgraph": "^0.2.13",
     "gm": "^1.18.1",
-    "googleapis": "^0.6.1",
+    "googleapis": "^59.0.0",
     "hiredis": "~0.1.16",
     "ical": "^0.4.0",
     "iconv": "~2.1.0",
