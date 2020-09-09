@@ -34,7 +34,7 @@
     "gulp-useref": "~1.1.0",
     "gulp-util": "~3.0.2",
     "gulp-webpack": "~1.2.0",
-    "http-proxy": "~1.8.0",
+    "http-proxy": "~1.18.1",
     "https": "^1.0.0",
     "jshint-loader": "~0.8.3",
     "jshint-stylish": "~1.0.0",
